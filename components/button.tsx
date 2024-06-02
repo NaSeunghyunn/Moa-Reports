@@ -16,7 +16,7 @@ export default function FormBtn({ value }: FormBtnProps) {
       {pending ? (
         <span className="loading loading-dots loading-md text-white"></span>
       ) : (
-        <span className="text-black font-semibold text-base">{value}</span>
+        <span className="text-black font-semibold text-base ">{value}</span>
       )}
     </button>
   );

@@ -10,7 +10,7 @@ import { useFormState } from "react-dom";
 import { saveAccount } from "../action";
 import FormBtn from "@/components/button";
 
-export default function JoinFrom() {
+export default function SignupFrom() {
   const [state, action] = useFormState(saveAccount, null);
 
   return (
@@ -20,29 +20,33 @@ export default function JoinFrom() {
           Icon={EnvelopeIcon}
           type="email"
           name="email"
+          required
           placeholder="Email"
-          errors={state?.errors}
+          errors={state?.fieldErrors.email}
         />
         <FormInput
           Icon={UserCircleIcon}
           type="text"
           name="username"
+          required
           placeholder="Username"
-          errors={state?.errors}
+          errors={state?.fieldErrors.username}
         />
         <FormInput
           Icon={KeyIcon}
           type="password"
           name="password"
+          required
           placeholder="Password"
-          errors={state?.errors}
+          errors={state?.fieldErrors.password}
         />
         <FormInput
           Icon={KeyIcon}
           type="password"
           name="confirm_password"
+          required
           placeholder="Confirm Password"
-          errors={state?.errors}
+          errors={state?.fieldErrors.confirm_password}
         />
       </div>
       <FormBtn value="会員登録" />

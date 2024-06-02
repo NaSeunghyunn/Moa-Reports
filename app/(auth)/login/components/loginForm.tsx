@@ -16,13 +16,17 @@ export default function LoginForm() {
           Icon={EnvelopeIcon}
           type="email"
           name="email"
+          required
           placeholder="Email"
+          errors={state?.fieldErrors.email}
         />
         <FormInput
           Icon={KeyIcon}
           type="password"
           name="password"
+          required
           placeholder="Password"
+          errors={state?.fieldErrors.password}
         />
       </div>
       <FormBtn value="ログイン" />

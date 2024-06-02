@@ -14,3 +14,7 @@ useFormStatus를 통해서 server action 처리상태를 확인 가능 pending �
 
 Server Action의 state값(action 메서드의 반환값등)을 async function의 매개변수로 주고받을수 있도록 해줌
 필드 에러를 쉽게 표시할 수 있게됨
+
+## 5. zod
+
+서버 로직에서 유효성검사를 실시한다

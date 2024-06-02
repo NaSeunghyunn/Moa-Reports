@@ -19,9 +19,9 @@ export default function FormInput({
 }: FormInputProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="input input-bordered flex items-center gap-2">
+      <label className="input input-bordered flex items-center gap-2 text-black">
         <Icon className="size-6" />
-        <input {...rest} name={name} className="grow text-gray-300" />
+        <input {...rest} name={name} className="grow" />
       </label>
       {errors?.map((error, index) => (
         <span key={index} className="text-red-500 font-medium">

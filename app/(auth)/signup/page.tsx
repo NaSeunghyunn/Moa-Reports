@@ -1,4 +1,4 @@
-import JoinFrom from "./components/joinForm";
+import SignupFrom from "./components/signupForm";
 
 export default function CreateAccount() {
   return (
@@ -6,7 +6,7 @@ export default function CreateAccount() {
       <div className="pb-10">
         <h1 className="text-2xl">Welcome to MOA REPORTS!</h1>
       </div>
-      <JoinFrom />
+      <SignupFrom />
     </div>
   );
 }

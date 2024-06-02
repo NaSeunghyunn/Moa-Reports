@@ -10,7 +10,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <Link
-          href="/create"
+          href="/signup"
           className="text-center w-full bg-green-500 rounded-md text-black py-2.5 hover:bg-green-400 transition-colors font-medium"
         >
           会員登録
