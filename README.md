@@ -18,3 +18,27 @@ Server Action의 state값(action 메서드의 반환값등)을 async function의
 ## 5. zod
 
 서버 로직에서 유효성검사를 실시한다
+
+## 6. ORM
+
+prisma
+
+1. npm i prisma
+2. npx prisma init
+3. .env 파일 gitignore추가
+4. extensions prisma 검색후 인스톨
+5. model 엔티티 정의
+
+```javascript
+model User {
+  id Int @id @default(autoincrement())
+  username String
+  email String @unique
+  password String
+  avatar String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+```
+
+6. 마이그레이션 npx prisma migrate dev -> 타입스크립트로 된 client가 생성 -> client를 통해 db와 소통
