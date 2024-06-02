@@ -1,4 +1,4 @@
-import { validationMessages } from "@/lib/util/validationMessages";
+import { validationMessages } from "@/lib/validationMessages";
 import { z } from "zod";
 
 export const formSchema = z.object({

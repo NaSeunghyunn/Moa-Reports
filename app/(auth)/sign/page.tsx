@@ -2,7 +2,7 @@
 import { useState } from "react";
 import SignupFrom from "./components/signupForm";
 import LoginForm from "../login/components/loginForm";
-import { cls } from "@/lib/util/util";
+import { cls } from "@/lib/util";
 
 export default function CreateAccount() {
   const [isLogin, setIsLogin] = useState(false);

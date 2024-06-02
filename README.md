@@ -18,6 +18,11 @@ Server Action의 state값(action 메서드의 반환값등)을 async function의
 ## 5. zod
 
 서버 로직에서 유효성검사를 실시한다
+모든 refine함수에서 async await를 하고싶다면 safeParseAsync를 이용
+
+```javascript
+await formSchema.safeParseAsync(input);
+```
 
 ## 6. ORM
 
@@ -42,3 +47,14 @@ model User {
 ```
 
 6. 마이그레이션 npx prisma migrate dev -> 타입스크립트로 된 client가 생성 -> client를 통해 db와 소통
+   new PrismaClient() 로 인스턴스생성
+
+7. npx prisma studio 데이터베이스 gui도 제공
+
+8. 연관관계
+   연관관계된 모델을 삭제 (onDelete) 할 때 옵션 설정 가능 cascade , Restrict , NoAction , SetNull , SetDefault
+
+## 7. password Hashing
+
+1. npm i bcrypt
+2. npm i @types/bcrypt
