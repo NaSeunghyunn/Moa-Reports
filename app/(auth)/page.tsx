@@ -10,17 +10,11 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <Link
-          href="/signup"
+          href="/sign"
           className="text-center w-full bg-green-500 rounded-md text-black py-2.5 hover:bg-green-400 transition-colors font-medium"
         >
-          会員登録
+          開始する
         </Link>
-        <div>
-          <span>すでにアカウントをお持ちですか？</span>
-          <Link href="/login" className="hover:underline">
-            ログイン
-          </Link>
-        </div>
       </div>
     </div>
   );
