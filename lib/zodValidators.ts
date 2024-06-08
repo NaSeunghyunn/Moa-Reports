@@ -11,3 +11,5 @@ export const checkEmail = async (email: string) => {
   });
   return !Boolean(userEmail);
 };
+
+export const existsEmail = async (email: string) => !(await checkEmail(email));

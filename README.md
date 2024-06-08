@@ -58,3 +58,9 @@ model User {
 
 1. npm i bcrypt
 2. npm i @types/bcrypt
+3. import bcrypt from "bcrypt";
+
+## 8. 세션
+
+1. iron-session은 암호화된 쿠키를 이용
+2. 서버에 요청 -> 서버에서 암호화한 쿠키를 만들고 응답 -> 암호화된 쿠키는 서버에서 복호화

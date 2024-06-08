@@ -7,17 +7,17 @@ export const formSchema = z
     email: z
       .string()
       .trim()
-      .email(validationMessages.email)
-      .refine(checkEmail, validationMessages.exists),
-    username: z.string().min(3, validationMessages.min(3)),
+      .email(validationMessages.EMAIL)
+      .refine(checkEmail, validationMessages.EXISTS),
+    username: z.string().min(2, validationMessages.min(2)),
     password: z.string().min(8, validationMessages.min(8)),
     confirm_password: z.string().min(8, validationMessages.min(8)),
   })
-  .superRefine(({ password, confirm_password }, ctx) => {
+  .superRefine(async ({ password, confirm_password }, ctx) => {
     if (password !== confirm_password) {
       ctx.addIssue({
         code: "custom",
-        message: validationMessages.invalidConfirmPassword,
+        message: validationMessages.INVALID_CONFIRM_PASSWORD,
         path: ["confirm_password"],
       });
     }
