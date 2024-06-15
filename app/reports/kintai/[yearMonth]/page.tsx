@@ -27,7 +27,7 @@ export default function Kintai({ params }: { params: { yearMonth: string } }) {
   return (
     <div>
       <Modal modalId="kintai_modal" kintaiDetail={kintaiDetail} />
-      <div className="fixed w-full h-10">
+      <div className="fixed w-full max-w-screen-sm h-10">
         <div className="flex justify-between items-center bg-neutral-900 px-5 py-3">
           <span className="text-green-500 text-lg">勤怠</span>
           <div className="flex items-center justify-center gap-1">
