@@ -1,7 +1,7 @@
 import { ForwardRefExoticComponent, RefAttributes, SVGProps } from "react";
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  Icon: ForwardRefExoticComponent<
+  Icon?: ForwardRefExoticComponent<
     Omit<SVGProps<SVGSVGElement>, "ref"> & {
       title?: string | undefined;
       titleId?: string | undefined;
@@ -15,12 +15,15 @@ export default function FormInput({
   Icon,
   name,
   errors,
+  className,
   ...rest
 }: FormInputProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="input input-bordered flex items-center gap-2 text-black">
-        <Icon className="size-6" />
+      <label
+        className={`input input-bordered flex items-center gap-2 text-black ${className}`}
+      >
+        {Icon && <Icon className="size-6" />}
         <input {...rest} name={name} className="grow" />
       </label>
       {errors?.map((error, index) => (

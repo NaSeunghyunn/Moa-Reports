@@ -1,6 +1,6 @@
 ## 1. CSS 꾸미기할때 유용한것
 
-아이콘 heroIcons, daisyui
+아이콘 heroIcons, daisyui, icons-material
 
 ## 2. Server Action
 

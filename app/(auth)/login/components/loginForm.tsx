@@ -5,9 +5,10 @@ import FormInput from "@/components/input";
 import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/solid";
 import { useFormState } from "react-dom";
 import { login } from "../action";
+import { IStateErrors } from "../formSchema";
 
 export default function LoginForm() {
-  const [state, action] = useFormState(login, null);
+  const [state, action] = useFormState<IStateErrors>(login, null);
 
   return (
     <form action={action} className="flex flex-col gap-3">

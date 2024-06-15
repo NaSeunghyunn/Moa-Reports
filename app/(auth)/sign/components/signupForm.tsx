@@ -9,9 +9,10 @@ import {
 import { useFormState } from "react-dom";
 import { saveAccount } from "../action";
 import FormBtn from "@/components/button";
+import { IStateErrors } from "../formSchema";
 
 export default function SignupFrom() {
-  const [state, action] = useFormState(saveAccount, null);
+  const [state, action] = useFormState<IStateErrors>(saveAccount, null);
 
   return (
     <form action={action} className="flex flex-col gap-3">

@@ -22,3 +22,5 @@ export const formSchema = z
       });
     }
   });
+
+export type IStateErrors = z.inferFlattenedErrors<typeof formSchema> | null;
