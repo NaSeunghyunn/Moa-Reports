@@ -52,7 +52,7 @@ export default function KintaiClient({ kintais }: KintaiClientProps) {
         {kintais.map((kintai) => (
           <div
             key={kintai.id}
-            className="flex justify-between border rounded-lg p-5 cursor-pointer"
+            className="flex justify-between border rounded-lg p-5 cursor-pointer select-none"
             onClick={() => rowOnclick(kintai)}
           >
             <span

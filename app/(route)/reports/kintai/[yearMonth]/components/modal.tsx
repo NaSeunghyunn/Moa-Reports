@@ -65,7 +65,7 @@ export default function Modal({ modalId, kintaiDetail }: ModalProps) {
               <ClockIcon className="size-7" />
               <FormInput
                 name="workTime"
-                className="bg-neutral-700 p-1 text-white"
+                className="bg-neutral-700 p-1 text-white border-none outline-none select-none"
                 value={calculateWorkingTime(
                   kintaiDetail.startTime,
                   kintaiDetail.endTime,
