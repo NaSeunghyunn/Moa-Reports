@@ -1,7 +1,5 @@
 "use client";
 import { ClockIcon } from "@heroicons/react/24/solid";
-import Modal from "./components/modal";
-import { KintaiDetailProps, WORK_TYPE } from "./type";
 import { useState } from "react";
 import {
   calculateWorkingTime,
@@ -9,9 +7,14 @@ import {
   getDayOfWeek,
   isDayOff,
 } from "@/lib/dateUtil";
+import Modal from "./modal";
+import { KintaiDetailProps } from "@/types/KintaiType";
 
-export default function Kintai({ params }: { params: { yearMonth: string } }) {
-  const kintais = getKintais(params.yearMonth);
+interface KintaiClientProps {
+  kintais: KintaiDetailProps[];
+}
+
+export default function KintaiClient({ kintais }: KintaiClientProps) {
   const [kintaiDetail, setKintaiDetail] = useState<KintaiDetailProps>(
     kintais[3]
   );
@@ -74,24 +77,3 @@ export default function Kintai({ params }: { params: { yearMonth: string } }) {
     </div>
   );
 }
-
-const getKintais = (yearMonth: string): KintaiDetailProps[] => {
-  const [year, month] = yearMonth.split("-");
-  const lastDate = new Date(+year, +month, 0).getDate();
-
-  return Array.from({ length: lastDate }, (_, index) => index + 1).map(
-    (data): KintaiDetailProps => ({
-      id: data,
-      date: new Date(+year, +month - 1, data),
-      startTime: ![0, 6].includes(new Date(+year, +month - 1, data).getDay())
-        ? new Date(+year, +month - 1, data, 9, 0, 0)
-        : undefined,
-      endTime: new Date(+year, +month - 1, data, 18, 0, 0),
-      breakTime: 1,
-      workType: isDayOff(new Date(+year, +month - 1, data))
-        ? WORK_TYPE.DAY_OFF
-        : WORK_TYPE.WORK,
-      userId: 1,
-    })
-  );
-};

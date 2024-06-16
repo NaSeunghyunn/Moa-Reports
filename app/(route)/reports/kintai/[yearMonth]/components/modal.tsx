@@ -1,6 +1,6 @@
 "use client";
 import FormInput from "@/components/input";
-import { KintaiDetailProps, WORK_TYPE } from "../type";
+import { KintaiDetailProps, WORK_TYPE } from "@/types/KintaiType";
 import React, { useEffect, useState } from "react";
 import TimeSelect from "./timeSelect";
 import { calculateWorkingTime, formatDayJA } from "@/lib/dateUtil";
