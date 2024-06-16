@@ -4,7 +4,7 @@ export const WORK_TYPE = {
 };
 
 export interface KintaiDetailProps {
-  id: number;
+  id?: number;
   date: Date;
   startTime?: Date;
   endTime?: Date;

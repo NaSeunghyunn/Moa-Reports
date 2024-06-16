@@ -69,3 +69,37 @@ model User {
 
 1. 미들웨어를 사용하면 요청이 완료되기전에 코드를 실행시킬 수 있다. 그런다음 들어오는 요청에 따라 요청 또는 응답 헤더를 다시작성, 리디렉션, 수정하거나 직접 응답하여 응답을 수정할 수 있다. 미들웨어는 캐시된 컨텐츠와 경로가 일치하기 전에 실행된다.
 2. https://youngme92.vercel.app/blog/nextjs-13-middleware
+
+## 10. Jotai
+
+1. 상태 관리 라이브러리
+2. 상태 관리를 위한 아토믹 상태(atom)를 구조적으로 관리하는 것이 중요
+
+```scss
+src/
+├── atoms/
+│   ├── index.ts
+│   ├── userAtom.ts
+│   ├── settingsAtom.ts
+│   └── ... // other atoms
+├── components/
+│   ├── UserComponent.tsx
+│   ├── SettingsComponent.tsx
+│   └── ... // other components
+├── hooks/
+│   ├── useUser.ts
+│   ├── useSettings.ts
+│   └── ... // other hooks
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── ... // other pages
+├── lib/
+│   ├── dateUtil.ts
+│   └── ... // other utilities
+├── styles/
+│   ├── globals.css
+│   └── ... // other styles
+├── App.tsx
+└── index.tsx
+```

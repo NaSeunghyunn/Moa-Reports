@@ -1,22 +1,18 @@
 export const formatDayJA = (date: Date): string => `${date.getDate()}日`;
 
 export const calculateWorkingTime = (
-  startTime: Date | undefined,
-  endTime: Date | undefined,
+  startTime: Date | undefined | null,
+  endTime: Date | undefined | null,
   breakTime: number
 ): number => {
   if (!startTime || !endTime) {
     return 0;
   }
 
-  // startTime, endTime, breakTime을 분 단위로 변환합니다.
   const startTimeMinutes = startTime.getHours() * 60 + startTime.getMinutes();
   const endTimeMinutes = endTime.getHours() * 60 + endTime.getMinutes();
 
-  // 총 근무 시간을 분 단위로 계산합니다.
   let totalWorkingMinutes = endTimeMinutes - startTimeMinutes;
-
-  // 분 단위를 시간으로 변환하여 반환합니다.
   const totalWorkingHours = totalWorkingMinutes / 60;
 
   return totalWorkingHours - breakTime;

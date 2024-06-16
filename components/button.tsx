@@ -2,14 +2,15 @@
 
 import { useFormStatus } from "react-dom";
 
-interface FormBtnProps {
+interface FormBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
 }
 
-export default function FormBtn({ value }: FormBtnProps) {
+export default function FormBtn({ value, ...rest }: FormBtnProps) {
   const { pending } = useFormStatus();
   return (
     <button
+      {...rest}
       disabled={pending}
       className="btn bg-green-500 border-green-500 hover:bg-green-300 transition-colors disabled:bg-gray-500"
     >

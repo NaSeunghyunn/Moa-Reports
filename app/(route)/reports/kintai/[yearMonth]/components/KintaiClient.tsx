@@ -1,6 +1,6 @@
 "use client";
 import { ClockIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useEffect } from "react";
 import {
   calculateWorkingTime,
   formatWorkingTime,
@@ -9,15 +9,21 @@ import {
 } from "@/lib/dateUtil";
 import Modal from "./modal";
 import { KintaiDetailProps } from "@/types/KintaiType";
+import { useAtom, useSetAtom } from "jotai";
+import { kintaiListAtom, selectedKintaiAtom } from "@/atoms";
 
 interface KintaiClientProps {
   kintais: KintaiDetailProps[];
 }
 
 export default function KintaiClient({ kintais }: KintaiClientProps) {
-  const [kintaiDetail, setKintaiDetail] = useState<KintaiDetailProps>(
-    kintais[3]
-  );
+  const [kintaiList, setKintaiList] = useAtom(kintaiListAtom);
+  const setKintaiDetail = useSetAtom(selectedKintaiAtom);
+
+  useEffect(() => {
+    setKintaiList(kintais);
+  }, [kintais, setKintaiList]);
+
   const rowOnclick = (kintai: KintaiDetailProps) => {
     setKintaiDetail(kintai);
     const modalElement = document.getElementById(
@@ -29,13 +35,13 @@ export default function KintaiClient({ kintais }: KintaiClientProps) {
   };
   return (
     <div>
-      <Modal modalId="kintai_modal" kintaiDetail={kintaiDetail} />
+      <Modal modalId="kintai_modal" />
       <div className="fixed w-full max-w-screen-sm h-10">
         <div className="flex justify-between items-center bg-neutral-900 px-5 py-3">
           <span className="text-green-500 text-lg">勤怠</span>
           <div className="flex items-center justify-center gap-1">
             <ClockIcon className="size-4" />
-            {kintais.reduce(
+            {kintaiList.reduce(
               (acc, current) =>
                 acc +
                 calculateWorkingTime(
@@ -49,7 +55,7 @@ export default function KintaiClient({ kintais }: KintaiClientProps) {
         </div>
       </div>
       <div className="p-5 flex flex-col gap-2 pb-20 pt-14">
-        {kintais.map((kintai) => (
+        {kintaiList.map((kintai) => (
           <div
             key={kintai.id}
             className="flex justify-between border rounded-lg p-5 cursor-pointer select-none"
