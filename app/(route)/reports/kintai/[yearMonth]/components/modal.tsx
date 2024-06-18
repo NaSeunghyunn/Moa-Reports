@@ -32,10 +32,6 @@ export default function Modal({ modalId }: ModalProps) {
   const [breakTime, setBreakTime] = useAtom(breakTimeAtom);
 
   const onChangeWorkType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.currentTarget.value === WORK_TYPE.DAY_OFF) {
-      setStartTime(null);
-      setEndTime(null);
-    }
     setSelectedWorkType(e.currentTarget.value);
   };
   const onChangeBreakTime = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -122,7 +118,8 @@ export default function Modal({ modalId }: ModalProps) {
                           value={calculateWorkingTime(
                             startTime,
                             endTime,
-                            breakTime
+                            breakTime,
+                            selectedWorkType
                           )}
                           readOnly
                         />

@@ -1,13 +1,16 @@
+import { isDayOff as isDayOffByWorkType } from "./kintaiUtil";
+
 export const formatDayJA = (date: Date): string => `${date.getDate()}日`;
 
 export const calculateWorkingTime = (
   startTime: Date | undefined | null,
   endTime: Date | undefined | null,
-  breakTime: number
+  breakTime: number,
+  workType: string
 ): number => {
-  if (!startTime || !endTime) {
-    return 0;
-  }
+  if (!startTime || !endTime) return 0;
+
+  if (isDayOffByWorkType(workType)) return 0;
 
   const startTimeMinutes = startTime.getHours() * 60 + startTime.getMinutes();
   const endTimeMinutes = endTime.getHours() * 60 + endTime.getMinutes();

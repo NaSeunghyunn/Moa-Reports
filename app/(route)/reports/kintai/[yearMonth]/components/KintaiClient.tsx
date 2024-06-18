@@ -8,7 +8,7 @@ import {
   isDayOff,
 } from "@/lib/dateUtil";
 import Modal from "./modal";
-import { KintaiDetailProps } from "@/types/KintaiType";
+import { KintaiDetailProps, WORK_TYPE } from "@/types/KintaiType";
 import { useAtom, useSetAtom } from "jotai";
 import { kintaiListAtom, selectedKintaiAtom } from "@/atoms";
 
@@ -47,7 +47,8 @@ export default function KintaiClient({ kintais }: KintaiClientProps) {
                 calculateWorkingTime(
                   current.startTime,
                   current.endTime,
-                  current.breakTime
+                  current.breakTime,
+                  current.workType
                 ),
               0
             )}
@@ -64,19 +65,24 @@ export default function KintaiClient({ kintais }: KintaiClientProps) {
             <span
               className={`min-w-14 ${isDayOff(kintai.date) && "text-red-500"}`}
             >{`${kintai.date.getDate()}(${getDayOfWeek(kintai.date)})`}</span>
-            <span className="-ml-5">
-              {formatWorkingTime(kintai.startTime, kintai.endTime)}
-            </span>
-            <div className="flex gap-1.5 items-center">
-              <ClockIcon className="size-4" />
-              <span>
-                {`${calculateWorkingTime(
-                  kintai.startTime,
-                  kintai.endTime,
-                  kintai.breakTime
-                )}`}
-              </span>
-            </div>
+            {kintai.workType === WORK_TYPE.WORK && (
+              <>
+                <span className="-ml-5">
+                  {formatWorkingTime(kintai.startTime, kintai.endTime)}
+                </span>
+                <div className="flex gap-1.5 items-center">
+                  <ClockIcon className="size-4" />
+                  <span>
+                    {`${calculateWorkingTime(
+                      kintai.startTime,
+                      kintai.endTime,
+                      kintai.breakTime,
+                      kintai.workType
+                    )}`}
+                  </span>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
