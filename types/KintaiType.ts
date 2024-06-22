@@ -10,5 +10,5 @@ export interface KintaiDetailProps {
   breakTime: number;
   workType: WorkType;
   remarks?: string;
-  userId: number;
+  userId?: number;
 }

@@ -10,8 +10,6 @@ export const handleSubmit = async (
   kintaiList: KintaiDetailProps[],
   setKintaiList: (value: KintaiDetailProps[]) => void
 ) => {
-  if (!kintaiDetail) return;
-
   const updatedDetail: KintaiDetailProps = {
     ...kintaiDetail,
     workType: selectedWorkType,

@@ -36,8 +36,9 @@ const transformKintaiDetail = (
   date: kintaiDetail.date,
   startTime: kintaiDetail.startTime,
   endTime: kintaiDetail.endTime,
-  breakTime: 1,
+  breakTime: kintaiDetail.breakTime,
   workType: kintaiDetail.workType,
+  remarks: kintaiDetail.remarks,
   userId: kintaiDetail.userId,
 });
 
@@ -55,6 +56,5 @@ const createDefaultKintaiDetail = (
     isDayOff(new Date(+year, +month - 1, day)) || isHoliday
       ? WORK_TYPE.DAY_OFF
       : WORK_TYPE.WORK,
-  userId: 1,
   remarks: isHoliday ? "祝日" : undefined,
 });
