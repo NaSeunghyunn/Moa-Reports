@@ -1,12 +1,12 @@
 "use client";
 import FormInput from "@/components/input";
-import { KintaiDetailProps, WORK_TYPE } from "@/types/KintaiType";
+import { WorkType } from "@/types/KintaiType";
 import React, { useEffect, useState } from "react";
 import TimeSelect from "./timeSelect";
 import { calculateWorkingTime, formatDayJA } from "@/lib/dateUtil";
 import FormBtn from "@/components/button";
 import { ClockIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import {
   breakTimeAtom,
   endTimeAtom,
@@ -14,19 +14,21 @@ import {
   selectedKintaiAtom,
   startTimeAtom,
 } from "@/atoms";
+import { WORK_TYPE } from "@/lib/kintaiUtil";
+import { handleSubmit } from "./handleSubmit";
 
 interface ModalProps {
   modalId: string;
 }
 
 export default function Modal({ modalId }: ModalProps) {
-  const [kintaiList, setKitaiList] = useAtom(kintaiListAtom);
-  const [kintaiDetail, setKintaiDetail] = useAtom(selectedKintaiAtom);
+  const [kintaiList, setKintaiList] = useAtom(kintaiListAtom);
+  const kintaiDetail = useAtomValue(selectedKintaiAtom);
 
-  const [selectedWorkType, setSelectedWorkType] = useState(
+  const [selectedWorkType, setSelectedWorkType] = useState<WorkType>(
     kintaiDetail?.workType || WORK_TYPE.WORK
   );
-
+  const [remarks, setRemarks] = useState(kintaiDetail?.remarks ?? "");
   const [startTime, setStartTime] = useAtom(startTimeAtom);
   const [endTime, setEndTime] = useAtom(endTimeAtom);
   const [breakTime, setBreakTime] = useAtom(breakTimeAtom);
@@ -37,31 +39,28 @@ export default function Modal({ modalId }: ModalProps) {
   const onChangeBreakTime = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBreakTime(+e.currentTarget.value);
   };
+  const onChangeRemarks = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRemarks(e.currentTarget.value);
+  };
 
-  const handleSubmit = async () => {
-    if (!kintaiDetail) return;
-
-    const updatedDetail: KintaiDetailProps = {
-      ...kintaiDetail,
-      workType: selectedWorkType,
-      startTime: startTime ?? undefined,
-      endTime: endTime ?? undefined,
+  const handleFormSubmit = async () => {
+    await handleSubmit(
+      kintaiDetail!,
+      startTime,
+      endTime,
       breakTime,
-    };
-
-    const newKintaiList = kintaiList.map((kintai) =>
-      kintai.date.getDate() === kintaiDetail.date.getDate()
-        ? updatedDetail
-        : kintai
+      selectedWorkType,
+      remarks,
+      kintaiList,
+      setKintaiList
     );
-    setKitaiList(newKintaiList);
   };
 
   useEffect(() => {
     if (kintaiDetail) {
       setSelectedWorkType(kintaiDetail.workType);
-      setStartTime(kintaiDetail.startTime ?? null);
-      setEndTime(kintaiDetail.endTime ?? null);
+      setStartTime(kintaiDetail.startTime);
+      setEndTime(kintaiDetail.endTime);
       setBreakTime(kintaiDetail.breakTime || 1);
     }
   }, [kintaiDetail]);
@@ -129,9 +128,14 @@ export default function Modal({ modalId }: ModalProps) {
                 )}
                 <div>
                   <span>備考</span>
-                  <FormInput name="workTime" placeholder="備考" />
+                  <FormInput
+                    name="workTime"
+                    placeholder="備考"
+                    onChange={onChangeRemarks}
+                    value={remarks}
+                  />
                 </div>
-                <FormBtn value="変更" onClick={handleSubmit}></FormBtn>
+                <FormBtn value="変更" onClick={handleFormSubmit}></FormBtn>
               </form>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { fetchHolidays } from "./fetch/fetchHolidays";
 import { isDayOff as isDayOffByWorkType } from "./kintaiUtil";
 
 export const formatDayJA = (date: Date): string => `${date.getDate()}日`;
@@ -47,4 +48,12 @@ export const formatWorkingTime = (
 
 export const isDayOff = (date: Date) => {
   return date.getDay() === 0 || date.getDay() === 6;
+};
+
+export const yearMonth = (date: Date) =>
+  `${date.getFullYear()}-${date.getMonth() + 1}`;
+
+export const isHoliday = async (date: Date) => {
+  const holidays = await fetchHolidays(yearMonth(date));
+  return holidays.includes(date.getDate());
 };

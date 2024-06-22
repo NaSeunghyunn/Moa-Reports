@@ -1,15 +1,14 @@
-export const WORK_TYPE = {
-  WORK: "WORK",
-  DAY_OFF: "DAY_OFF",
-};
+import { WORK_TYPE } from "@/lib/kintaiUtil";
+
+export type WorkType = (typeof WORK_TYPE)[keyof typeof WORK_TYPE];
 
 export interface KintaiDetailProps {
   id?: number;
   date: Date;
-  startTime?: Date;
-  endTime?: Date;
+  startTime: Date;
+  endTime: Date;
   breakTime: number;
-  workType: string;
+  workType: WorkType;
   remarks?: string;
   userId: number;
 }

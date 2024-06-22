@@ -8,9 +8,10 @@ import {
   isDayOff,
 } from "@/lib/dateUtil";
 import Modal from "./modal";
-import { KintaiDetailProps, WORK_TYPE } from "@/types/KintaiType";
+import { KintaiDetailProps } from "@/types/KintaiType";
 import { useAtom, useSetAtom } from "jotai";
 import { kintaiListAtom, selectedKintaiAtom } from "@/atoms";
+import { WORK_TYPE } from "@/lib/kintaiUtil";
 
 interface KintaiClientProps {
   kintais: KintaiDetailProps[];
@@ -56,9 +57,9 @@ export default function KintaiClient({ kintais }: KintaiClientProps) {
         </div>
       </div>
       <div className="p-5 flex flex-col gap-2 pb-20 pt-14">
-        {kintaiList.map((kintai) => (
+        {kintaiList.map((kintai, index) => (
           <div
-            key={kintai.id}
+            key={index}
             className="flex justify-between border rounded-lg p-5 cursor-pointer select-none"
             onClick={() => rowOnclick(kintai)}
           >
