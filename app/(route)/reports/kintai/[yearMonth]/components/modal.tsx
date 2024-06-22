@@ -62,6 +62,7 @@ export default function Modal({ modalId }: ModalProps) {
       setStartTime(kintaiDetail.startTime);
       setEndTime(kintaiDetail.endTime);
       setBreakTime(kintaiDetail.breakTime || 1);
+      setRemarks(kintaiDetail.remarks ?? "");
     }
   }, [kintaiDetail]);
 
