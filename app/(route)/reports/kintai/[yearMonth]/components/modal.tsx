@@ -10,6 +10,7 @@ import { useAtom, useAtomValue } from "jotai";
 import {
   breakTimeAtom,
   endTimeAtom,
+  kintaiIdAtom,
   kintaiListAtom,
   selectedKintaiAtom,
   startTimeAtom,
@@ -32,6 +33,7 @@ export default function Modal({ modalId }: ModalProps) {
   const [startTime, setStartTime] = useAtom(startTimeAtom);
   const [endTime, setEndTime] = useAtom(endTimeAtom);
   const [breakTime, setBreakTime] = useAtom(breakTimeAtom);
+  const [kintaiId, setKintaiId] = useAtom(kintaiIdAtom);
 
   const onChangeWorkType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedWorkType(e.currentTarget.value);
@@ -45,14 +47,16 @@ export default function Modal({ modalId }: ModalProps) {
 
   const handleFormSubmit = async () => {
     await handleSubmit(
+      kintaiId,
       kintaiDetail!,
-      startTime,
-      endTime,
+      startTime!,
+      endTime!,
       breakTime,
       selectedWorkType,
       remarks,
       kintaiList,
-      setKintaiList
+      setKintaiList,
+      setKintaiId
     );
   };
 

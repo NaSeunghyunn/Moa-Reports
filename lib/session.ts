@@ -5,9 +5,11 @@ interface SessionContent {
   id?: number;
 }
 
+export const sessionOptions = {
+  cookieName: "moa-reports",
+  password: process.env.COOKIE_PASSWORD!,
+};
+
 export default function getSession() {
-  return getIronSession<SessionContent>(cookies(), {
-    cookieName: "moa-reports",
-    password: process.env.COOKIE_PASSWORD!,
-  });
+  return getIronSession<SessionContent>(cookies(), sessionOptions);
 }

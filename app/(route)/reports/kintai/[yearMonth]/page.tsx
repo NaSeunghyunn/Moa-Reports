@@ -6,7 +6,7 @@ export default async function Kintai({
 }: {
   params: { yearMonth: string };
 }) {
-  const kintais = await getKintais(params.yearMonth);
+  const kintai = await getKintais(params.yearMonth);
 
-  return <KintaiClient kintais={kintais} />;
+  return <KintaiClient kintai={kintai} />;
 }

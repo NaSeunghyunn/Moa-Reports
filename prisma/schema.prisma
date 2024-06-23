@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,6 +13,33 @@ model User {
   email String @unique
   password String
   avatar String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  kintais Kintai[]
+}
+
+model Kintai {
+  id Int @id @default(autoincrement())
+  yearMonth String
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Kintais KintaiDetail[]
+
+  @@unique([yearMonth, userId])
+}
+
+model KintaiDetail {
+  id Int @id @default(autoincrement())
+  day Int
+  startTime DateTime
+  endTime DateTime
+  breakTime Int @default(1)
+  workType String
+  remarks String?
+  kintaiId Int
+  kintai Kintai @relation(fields: [kintaiId], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

@@ -2,28 +2,35 @@
 import { ClockIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import {
+  WORK_TYPE,
   calculateWorkingTime,
   formatWorkingTime,
   getDayOfWeek,
   isDayOff,
-} from "@/lib/dateUtil";
+  nextYearMonth,
+  prevYearMonth,
+  toYearMonthStr,
+} from "@/lib";
 import Modal from "./modal";
-import { KintaiDetailProps } from "@/types/KintaiType";
+import { KintaiDetailProps, KintaiProps } from "@/types";
 import { useAtom, useSetAtom } from "jotai";
-import { kintaiListAtom, selectedKintaiAtom } from "@/atoms";
-import { WORK_TYPE } from "@/lib/kintaiUtil";
+import { kintaiIdAtom, kintaiListAtom, selectedKintaiAtom } from "@/atoms";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 
 interface KintaiClientProps {
-  kintais: KintaiDetailProps[];
+  kintai: KintaiProps;
 }
 
-export default function KintaiClient({ kintais }: KintaiClientProps) {
+export default function KintaiClient({ kintai }: KintaiClientProps) {
   const [kintaiList, setKintaiList] = useAtom(kintaiListAtom);
+  const setKintaiId = useSetAtom(kintaiIdAtom);
   const setKintaiDetail = useSetAtom(selectedKintaiAtom);
 
   useEffect(() => {
-    setKintaiList(kintais);
-  }, [kintais, setKintaiList]);
+    setKintaiList(kintai.kintaiDetails);
+    setKintaiId(kintai.id);
+  }, [kintai, setKintaiList, setKintaiId]);
 
   const rowOnclick = (kintai: KintaiDetailProps) => {
     setKintaiDetail(kintai);
@@ -39,7 +46,15 @@ export default function KintaiClient({ kintais }: KintaiClientProps) {
       <Modal modalId="kintai_modal" />
       <div className="fixed w-full max-w-screen-sm h-10">
         <div className="flex justify-between items-center bg-neutral-900 px-5 py-3">
-          <span className="text-green-500 text-lg">勤怠</span>
+          <div className="flex justify-between items-center">
+            <Link href={`./${toYearMonthStr(prevYearMonth(kintai.yearMonth))}`}>
+              <ArrowLeft className="size-10" />
+            </Link>
+            <span className="text-green-500 text-lg w-24 text-center">{`${kintai.yearMonth.year}年${kintai.yearMonth.month}月`}</span>
+            <Link href={`./${toYearMonthStr(nextYearMonth(kintai.yearMonth))}`}>
+              <ArrowRight className="size-10" />
+            </Link>
+          </div>
           <div className="flex items-center justify-center gap-1">
             <ClockIcon className="size-4" />
             {kintaiList.reduce(

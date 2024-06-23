@@ -1,45 +1,79 @@
+"use server";
 import { fetchHolidays } from "@/lib/fetch/fetchHolidays";
-import { findKintais } from "../repository/kintaiRepository";
-import { KintaiDetailProps } from "../types/KintaiType";
-import { isDayOff } from "@/lib/dateUtil";
-import { WORK_TYPE } from "@/lib/kintaiUtil";
+import {
+  KintaiDetailProps,
+  KintaiProps,
+  YearMonthType,
+  saveKintaiDetailDto,
+} from "@/types";
+import { isDayOff, toYearMonth, WORK_TYPE } from "@/lib";
+import getSession from "@/lib/session";
+import {
+  KintaiDetailsPrismaType,
+  KintaiPrismaType,
+  findKintais,
+  insertKintai,
+  upsertKintaiDetail,
+} from "@/repository";
 
-export async function getKintais(
-  yearMonth: string
-): Promise<KintaiDetailProps[]> {
+export async function saveKintaiDetail(saveCond: saveKintaiDetailDto) {
+  return upsertKintaiDetail(saveCond);
+}
+
+export async function saveKintai({ year, month }: YearMonthType) {
+  const userId = (await getSession()).id!;
+  return await insertKintai({ year, month }, userId);
+}
+
+export async function getKintais(yearMonth: string): Promise<KintaiProps> {
+  const userId = (await getSession()).id!;
+  const kintai: KintaiPrismaType = await findKintais(yearMonth, userId);
+  const kintaiDetails = await getKintaiDetails(yearMonth, kintai);
+  return {
+    id: kintai?.id,
+    yearMonth: toYearMonth(yearMonth),
+    kintaiDetails,
+  };
+}
+
+const getKintaiDetails = async (yearMonth: string, data: KintaiPrismaType) => {
   const holidays = await fetchHolidays(yearMonth);
-  const kintais = findKintais(yearMonth);
 
-  const [year, month] = yearMonth.split("-");
+  const { year, month } = toYearMonth(yearMonth);
   const lastDate = new Date(+year, +month, 0).getDate();
-
   return Array.from({ length: lastDate }, (_, index) => index + 1).map(
     (day): KintaiDetailProps => {
-      const findKintaiDetail = kintais.find(
-        (kintai) => kintai.date.getDate() === day
+      const findKintaiDetail = data?.Kintais.find(
+        (detail) => detail.day === day
       );
 
       if (findKintaiDetail) {
-        return transformKintaiDetail(findKintaiDetail);
+        return transformKintaiDetail(
+          { year, month },
+          findKintaiDetail,
+          data?.userId!
+        );
       }
 
       const isHoliday = holidays.includes(day);
       return createDefaultKintaiDetail(+year, +month, day, isHoliday);
     }
   );
-}
+};
 
 const transformKintaiDetail = (
-  kintaiDetail: KintaiDetailProps
+  { year, month }: YearMonthType,
+  kintaiDetail: KintaiDetailsPrismaType,
+  userId: number
 ): KintaiDetailProps => ({
   id: kintaiDetail.id,
-  date: kintaiDetail.date,
+  date: new Date(year, month - 1, kintaiDetail.day),
   startTime: kintaiDetail.startTime,
   endTime: kintaiDetail.endTime,
   breakTime: kintaiDetail.breakTime,
   workType: kintaiDetail.workType,
-  remarks: kintaiDetail.remarks,
-  userId: kintaiDetail.userId,
+  remarks: kintaiDetail.remarks ?? undefined,
+  userId,
 });
 
 const createDefaultKintaiDetail = (
