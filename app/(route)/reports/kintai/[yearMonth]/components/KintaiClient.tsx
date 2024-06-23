@@ -71,7 +71,7 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
           </div>
         </div>
       </div>
-      <div className="p-5 flex flex-col gap-2 pb-20 pt-14">
+      <div className="p-5 flex flex-col gap-2 pb-20 pt-20">
         {kintaiList.map((kintai, index) => (
           <div
             key={index}
