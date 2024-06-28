@@ -14,9 +14,15 @@ import {
 import Modal from "./modal";
 import { KintaiDetailProps, KintaiProps } from "@/types";
 import { useAtom, useSetAtom } from "jotai";
-import { kintaiIdAtom, kintaiListAtom, selectedKintaiAtom } from "@/atoms";
+import {
+  kintaiIdAtom,
+  kintaiListAtom,
+  selectedKintaiAtom,
+  yearMonthAtom,
+} from "@/atoms";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
+import OutputBtn from "@/components/outputBtn";
 
 interface KintaiClientProps {
   kintai: KintaiProps;
@@ -26,11 +32,13 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
   const [kintaiList, setKintaiList] = useAtom(kintaiListAtom);
   const setKintaiId = useSetAtom(kintaiIdAtom);
   const setKintaiDetail = useSetAtom(selectedKintaiAtom);
+  const setYearMonth = useSetAtom(yearMonthAtom);
 
   useEffect(() => {
     setKintaiList(kintai.kintaiDetails);
     setKintaiId(kintai.id);
-  }, [kintai, setKintaiList, setKintaiId]);
+    setYearMonth(kintai.yearMonth);
+  }, [kintai, setKintaiList, setKintaiId, setYearMonth]);
 
   const rowOnclick = (kintai: KintaiDetailProps) => {
     setKintaiDetail(kintai);
@@ -45,33 +53,36 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
     <div>
       <Modal modalId="kintai_modal" />
       <div className="fixed w-full max-w-screen-sm h-10">
-        <div className="flex justify-between items-center bg-neutral-900 px-5 py-3">
+        <div className="flex justify-between items-center bg-neutral-900 px-5 py-3 select-none">
           <div className="flex justify-between items-center">
             <Link href={`./${toYearMonthStr(prevYearMonth(kintai.yearMonth))}`}>
-              <ArrowLeft className="size-10" />
+              <ArrowLeft className="text-white" />
             </Link>
-            <span className="text-green-500 text-lg w-24 text-center">{`${kintai.yearMonth.year}年${kintai.yearMonth.month}月`}</span>
+            <span className="text-white text-lg w-24 text-center">{`${kintai.yearMonth.year}年${kintai.yearMonth.month}月`}</span>
             <Link href={`./${toYearMonthStr(nextYearMonth(kintai.yearMonth))}`}>
-              <ArrowRight className="size-10" />
+              <ArrowRight className="text-white" />
             </Link>
           </div>
-          <div className="flex items-center justify-center gap-1">
-            <ClockIcon className="size-4" />
-            {kintaiList.reduce(
-              (acc, current) =>
-                acc +
-                calculateWorkingTime(
-                  current.startTime,
-                  current.endTime,
-                  current.breakTime,
-                  current.workType
-                ),
-              0
-            )}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center gap-1">
+              <ClockIcon className="size-4" />
+              {kintaiList.reduce(
+                (acc, current) =>
+                  acc +
+                  calculateWorkingTime(
+                    current.startTime,
+                    current.endTime,
+                    current.breakTime,
+                    current.workType
+                  ),
+                0
+              )}
+            </div>
+            <OutputBtn />
           </div>
         </div>
       </div>
-      <div className="p-5 flex flex-col gap-2 pb-20 pt-20">
+      <div className="p-5 flex flex-col gap-2 pb-20 pt-16">
         {kintaiList.map((kintai, index) => (
           <div
             key={index}

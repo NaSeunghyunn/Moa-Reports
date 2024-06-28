@@ -13,6 +13,17 @@ export async function getUserCredentialsByEmail(email: string) {
   });
 }
 
+export async function findUsername(id: number) {
+  return await db.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      username: true,
+    },
+  });
+}
+
 export async function insertUser(
   username: string,
   email: string,

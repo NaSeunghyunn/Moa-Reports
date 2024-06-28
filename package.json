@@ -17,7 +17,9 @@
     "@prisma/client": "^5.14.0",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
-    "iron-session": "^8.0.1",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
+    "iron-session": "^8.0.2",
     "jotai": "^2.8.3",
     "next": "14.2.3",
     "prisma": "^5.14.0",
@@ -27,6 +29,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

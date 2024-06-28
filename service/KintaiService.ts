@@ -25,7 +25,7 @@ export async function saveKintai({ year, month }: YearMonthType) {
   return await insertKintai({ year, month }, userId);
 }
 
-export async function getKintais(yearMonth: string): Promise<KintaiProps> {
+export async function getKintai(yearMonth: string): Promise<KintaiProps> {
   const userId = (await getSession()).id!;
   const kintai: KintaiPrismaType = await findKintais(yearMonth, userId);
   const kintaiDetails = await getKintaiDetails(yearMonth, kintai);

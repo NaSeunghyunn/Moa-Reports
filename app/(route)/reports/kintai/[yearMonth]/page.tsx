@@ -1,4 +1,4 @@
-import { getKintais } from "@/service/KintaiService";
+import { getKintai } from "@/service/KintaiService";
 import KintaiClient from "./components/KintaiClient";
 
 export default async function Kintai({
@@ -6,7 +6,7 @@ export default async function Kintai({
 }: {
   params: { yearMonth: string };
 }) {
-  const kintai = await getKintais(params.yearMonth);
+  const kintai = await getKintai(params.yearMonth);
 
   return <KintaiClient kintai={kintai} />;
 }

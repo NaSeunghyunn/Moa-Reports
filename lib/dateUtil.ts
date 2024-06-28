@@ -35,10 +35,8 @@ export const formatTime = (date: Date): string => {
 };
 
 export const getDayOfWeek = (date: Date): string => {
-  const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const dayIndex = date.getDay();
-  const dayOfWeek = days[dayIndex];
-  return dayOfWeek;
+  const daysOfWeek = ["日", "月", "火", "水", "木", "金", "土"];
+  return daysOfWeek[date.getDay()];
 };
 
 export const formatWorkingTime = (
