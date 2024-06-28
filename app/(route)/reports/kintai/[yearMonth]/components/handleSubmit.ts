@@ -1,9 +1,10 @@
 import { saveKintai, saveKintaiDetail } from "@/service/KintaiService";
-import { KintaiDetailProps, WorkType } from "@/types/KintaiType";
+import { KintaiDetailProps, WorkType, YearMonthType } from "@/types/KintaiType";
 
 export const handleSubmit = async (
   kintaiId: number | undefined,
   kintaiDetail: KintaiDetailProps,
+  yearMonth: YearMonthType,
   startTime: Date,
   endTime: Date,
   breakTime: number,
@@ -19,6 +20,7 @@ export const handleSubmit = async (
   const saveKintai = await saveKintaiDetail({
     id: kintaiDetail.id,
     kintaiId: findKintaiId,
+    yearMonth,
     day: kintaiDetail.date.getDate(),
     startTime: startTime!,
     endTime,

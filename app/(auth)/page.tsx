@@ -5,7 +5,7 @@ export default function Home() {
     <div className="flex flex-col p-6 justify-between min-h-screen">
       <div className="my-auto flex flex-col gap-2 items-center">
         <h1 className="text-5xl font-semibold text-center text-gray-300">
-          MOA REPORTS.
+          MORE REPORTS.
         </h1>
       </div>
       <div className="flex flex-col items-center gap-3">

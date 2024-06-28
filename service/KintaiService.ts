@@ -6,7 +6,7 @@ import {
   YearMonthType,
   saveKintaiDetailDto,
 } from "@/types";
-import { isDayOff, toYearMonth, WORK_TYPE } from "@/lib";
+import { isDayOff, toYearMonth, toYearMonthStr, WORK_TYPE } from "@/lib";
 import getSession from "@/lib/session";
 import {
   KintaiDetailsPrismaType,
@@ -15,9 +15,12 @@ import {
   insertKintai,
   upsertKintaiDetail,
 } from "@/repository";
+import { revalidatePath } from "next/cache";
 
 export async function saveKintaiDetail(saveCond: saveKintaiDetailDto) {
-  return upsertKintaiDetail(saveCond);
+  const result = await upsertKintaiDetail(saveCond);
+  revalidatePath(`reports/kintai/${toYearMonthStr(saveCond.yearMonth)}`);
+  return result;
 }
 
 export async function saveKintai({ year, month }: YearMonthType) {

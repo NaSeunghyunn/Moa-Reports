@@ -28,6 +28,7 @@ export interface YearMonthType {
 export interface saveKintaiDetailDto {
   id: number | undefined;
   kintaiId: number;
+  yearMonth: YearMonthType;
   day: number;
   startTime: Date;
   endTime: Date;

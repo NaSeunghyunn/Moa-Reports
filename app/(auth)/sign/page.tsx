@@ -11,7 +11,7 @@ export default function CreateAccount() {
   return (
     <div className="py-8 px-6 flex flex-col">
       <div className="pb-10">
-        <h1 className="text-2xl">Welcome to MOA REPORTS!</h1>
+        <h1 className="text-2xl">Welcome to MORE REPORTS!</h1>
       </div>
       <div className="flex flex-col gap-5">
         <div className="flex justify-center text-center">

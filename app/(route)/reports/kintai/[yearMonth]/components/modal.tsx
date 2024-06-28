@@ -14,6 +14,7 @@ import {
   kintaiListAtom,
   selectedKintaiAtom,
   startTimeAtom,
+  yearMonthAtom,
 } from "@/atoms";
 import { WORK_TYPE } from "@/lib/kintaiUtil";
 import { handleSubmit } from "./handleSubmit";
@@ -25,6 +26,7 @@ interface ModalProps {
 export default function Modal({ modalId }: ModalProps) {
   const [kintaiList, setKintaiList] = useAtom(kintaiListAtom);
   const kintaiDetail = useAtomValue(selectedKintaiAtom);
+  const yearMonth = useAtomValue(yearMonthAtom);
 
   const [selectedWorkType, setSelectedWorkType] = useState<WorkType>(
     kintaiDetail?.workType || WORK_TYPE.WORK
@@ -49,6 +51,7 @@ export default function Modal({ modalId }: ModalProps) {
     await handleSubmit(
       kintaiId,
       kintaiDetail!,
+      yearMonth!,
       startTime!,
       endTime!,
       breakTime,
