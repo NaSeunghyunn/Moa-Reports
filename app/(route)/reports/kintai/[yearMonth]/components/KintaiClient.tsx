@@ -11,7 +11,6 @@ import {
   prevYearMonth,
   toYearMonthStr,
 } from "@/lib";
-import Modal from "./modal";
 import { KintaiDetailProps, KintaiProps } from "@/types";
 import { useAtom, useSetAtom } from "jotai";
 import {
@@ -21,8 +20,9 @@ import {
   yearMonthAtom,
 } from "@/atoms";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "@mui/icons-material";
-import OutputBtn from "@/components/outputBtn";
+import { ArrowLeft, ArrowRight, PrintOutlined } from "@mui/icons-material";
+import KintaiModal from "./kintaiModal";
+import OutputModal from "./OutputModal";
 
 interface KintaiClientProps {
   kintai: KintaiProps;
@@ -49,9 +49,19 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
       modalElement.showModal();
     }
   };
+
+  const onclickOutput = () => {
+    const modalElement = document.getElementById(
+      "my_modal_3"
+    ) as HTMLDialogElement;
+    if (modalElement) {
+      modalElement.showModal();
+    }
+  };
   return (
     <div>
-      <Modal modalId="kintai_modal" />
+      <KintaiModal modalId="kintai_modal" />
+      <OutputModal />
       <div className="fixed w-full max-w-screen-sm h-10">
         <div className="flex justify-between items-center bg-neutral-900 px-5 py-3 select-none">
           <div className="flex justify-between items-center">
@@ -63,9 +73,12 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
               <ArrowRight className="text-white" />
             </Link>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center gap-1">
-              <ClockIcon className="size-4" />
+          <button
+            onClick={onclickOutput}
+            className="bg-green-500 py-1 px-2 rounded-xl"
+          >
+            <div className="flex items-center justify-center gap-2 px-2">
+              <PrintOutlined />
               {kintaiList.reduce(
                 (acc, current) =>
                   acc +
@@ -78,8 +91,7 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
                 0
               )}
             </div>
-            <OutputBtn />
-          </div>
+          </button>
         </div>
       </div>
       <div className="p-5 flex flex-col gap-2 pb-20 pt-16">

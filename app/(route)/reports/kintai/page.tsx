@@ -22,7 +22,6 @@ export default function Kintai() {
   return (
     <div className="flex justify-center items-center h-screen">
       <form action={action} className="flex flex-col gap-5">
-        <h1 className="text-3xl">Select a working day</h1>
         <div className="flex gap-10 items-center justify-center">
           <div className="flex gap-1 items-center">
             <select
