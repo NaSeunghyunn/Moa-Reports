@@ -1,5 +1,4 @@
-import { YearMonthType } from "@/types/KintaiType";
-import { fetchHolidays } from "./fetch/fetchHolidays";
+import { format, toZonedTime } from "date-fns-tz";
 import { WORK_TYPE } from "./kintaiUtil";
 
 const TIME_ZONE = "Asia/Tokyo";
@@ -49,4 +48,9 @@ export const formatWorkingTime = (
 
 export const isDayOff = (date: Date) => {
   return date.getDay() === 0 || date.getDay() === 6;
+};
+
+export const toTokyoTime = (date: Date) => {
+  const timeZone = "Asia/Tokyo";
+  return toZonedTime(date, timeZone);
 };
