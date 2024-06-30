@@ -56,11 +56,17 @@ export default function Kintai() {
             <span className="text-gray-400">月</span>
           </div>
         </div>
-        {state?.fieldErrors.year?.map(() => (
-          <span className="text-red-500">{`年度は${state.fieldErrors.year}`}</span>
+        {state?.fieldErrors.year?.map((_, index) => (
+          <span
+            key={index}
+            className="text-red-500"
+          >{`年度は${state.fieldErrors.year}`}</span>
         ))}
-        {state?.fieldErrors.month?.map(() => (
-          <span className="text-red-500">{`月は${state?.fieldErrors.month}`}</span>
+        {state?.fieldErrors.month?.map((_, index) => (
+          <span
+            key={index}
+            className="text-red-500"
+          >{`月は${state?.fieldErrors.month}`}</span>
         ))}
         <FormBtn value="次へ" />
       </form>

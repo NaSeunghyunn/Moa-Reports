@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function YearMonth() {
-  const now = new Date();
+  const now = useMemo(() => new Date(), []);
   const [year, setYear] = useState(now.getFullYear());
   const onChangeYear = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setYear(+e.target.value);
@@ -17,7 +17,7 @@ export default function YearMonth() {
   useEffect(() => {
     setYear(now.getFullYear());
     setMonth(now.getMonth() + 1);
-  }, [now]);
+  }, [now, setYear, setMonth]);
 
   return (
     <div className="flex gap-10 items-center justify-center">

@@ -71,7 +71,14 @@ export default function KintaiModal({ modalId }: ModalProps) {
       setBreakTime(kintaiDetail.breakTime || 1);
       setRemarks(kintaiDetail.remarks ?? "");
     }
-  }, [kintaiDetail]);
+  }, [
+    kintaiDetail,
+    setSelectedWorkType,
+    setStartTime,
+    setEndTime,
+    setBreakTime,
+    setRemarks,
+  ]);
 
   return (
     <dialog id={modalId} className="modal">
