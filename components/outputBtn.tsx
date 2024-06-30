@@ -1,13 +1,12 @@
 "use client";
 import { useState } from "react";
-import { more, smt } from "@/lib/excel/downloadKintai";
 import { useAtomValue } from "jotai";
 import { kintaiListAtom, yearMonthAtom } from "@/atoms";
-import { TEMPLATE_TYPE } from "@/lib/templateUtil";
+import { downlodKintai } from "@/lib/excel/downloadKintai";
 import { TemplateType } from "@/types/TemplateType";
 
 interface outputBtnProps {
-  templateType: string;
+  templateType: TemplateType;
   title: string;
 }
 
@@ -22,11 +21,7 @@ export default function OutputBtn({ templateType, title }: outputBtnProps) {
   const handleDownload = async () => {
     setLoading(true);
     try {
-      if (TEMPLATE_TYPE.SMT === templateType) {
-        await smt.downloadKintai({ yearMonth, kintaiList });
-      } else {
-        await more.downloadKintai({ yearMonth, kintaiList });
-      }
+      await downlodKintai({ templateType, yearMonth, kintaiList });
     } catch (error) {
       alert("エラーが発生しました。もう一度やり直してください。");
     } finally {

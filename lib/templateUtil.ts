@@ -1,4 +1,4 @@
 export const TEMPLATE_TYPE = {
-  MORE: "MORE",
+  MORE: "モア",
   SMT: "SMT",
 };

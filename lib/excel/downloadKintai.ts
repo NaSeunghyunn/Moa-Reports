@@ -4,13 +4,28 @@ import ExcelJS, { Workbook } from "exceljs";
 import { saveAs } from "file-saver";
 import { calculateWorkingTime, getDayOfWeek } from "../dateUtil";
 import { WORK_TYPE } from "../kintaiUtil";
+import { TEMPLATE_TYPE } from "../templateUtil";
+import { TemplateType } from "@/types/TemplateType";
 
 interface kintaiExcelProps {
+  templateType?: TemplateType;
   yearMonth: YearMonthType;
   kintaiList: KintaiDetailProps[];
 }
 
-export const more = {
+export async function downlodKintai({
+  templateType,
+  yearMonth,
+  kintaiList,
+}: kintaiExcelProps) {
+  if (TEMPLATE_TYPE.SMT === templateType) {
+    await smt.downloadKintai({ yearMonth, kintaiList });
+  } else {
+    await more.downloadKintai({ yearMonth, kintaiList });
+  }
+}
+
+const more = {
   downloadKintai: async function ({ yearMonth, kintaiList }: kintaiExcelProps) {
     const { workbook, worksheet } = await readTemplate(
       `/excelTemplate/more_kintai_template${kintaiList.length}.xlsx`
@@ -39,7 +54,7 @@ export const more = {
   },
 };
 
-export const smt = {
+const smt = {
   downloadKintai: async function ({ yearMonth, kintaiList }: kintaiExcelProps) {
     const { workbook, worksheet } = await readTemplate(
       `/excelTemplate/smt_kintai_template${kintaiList.length}.xlsx`

@@ -21,14 +21,16 @@ import {
 } from "@/atoms";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, PrintOutlined } from "@mui/icons-material";
-import KintaiModal from "./kintaiModal";
 import OutputModal from "./OutputModal";
+import KintaiModal from "./KintaiModal";
+import { tempalteListType } from "@/repository/templateRepository";
 
 interface KintaiClientProps {
   kintai: KintaiProps;
+  templates: tempalteListType;
 }
 
-export default function KintaiClient({ kintai }: KintaiClientProps) {
+export default function KintaiClient({ kintai, templates }: KintaiClientProps) {
   const [kintaiList, setKintaiList] = useAtom(kintaiListAtom);
   const setKintaiId = useSetAtom(kintaiIdAtom);
   const setKintaiDetail = useSetAtom(selectedKintaiAtom);
@@ -52,7 +54,7 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
 
   const onclickOutput = () => {
     const modalElement = document.getElementById(
-      "my_modal_3"
+      "output_modal"
     ) as HTMLDialogElement;
     if (modalElement) {
       modalElement.showModal();
@@ -61,7 +63,7 @@ export default function KintaiClient({ kintai }: KintaiClientProps) {
   return (
     <div>
       <KintaiModal modalId="kintai_modal" />
-      <OutputModal />
+      <OutputModal modalId="output_modal" templates={templates} />
       <div className="fixed w-full max-w-screen-sm h-10">
         <div className="flex justify-between items-center bg-neutral-900 px-5 py-3 select-none">
           <div className="flex justify-between items-center">

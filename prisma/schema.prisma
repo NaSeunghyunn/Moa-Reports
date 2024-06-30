@@ -16,6 +16,7 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   kintais Kintai[]
+  userTemplates UserTemplate[]
 }
 
 model Kintai {
@@ -42,4 +43,25 @@ model KintaiDetail {
   kintai Kintai @relation(fields: [kintaiId], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model Template {
+  id Int @id @default(autoincrement())
+  type String @unique
+  name String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  userTemplates UserTemplate[]
+}
+
+model UserTemplate {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  templateId Int
+  tempalte Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([userId, templateId])
 }
