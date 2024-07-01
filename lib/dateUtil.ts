@@ -1,4 +1,5 @@
-import { format, toZonedTime } from "date-fns-tz";
+import { DateTime } from "luxon";
+import { TokyoDateType } from "@/types";
 import { WORK_TYPE } from "./kintaiUtil";
 
 const TIME_ZONE = "Asia/Tokyo";
@@ -50,7 +51,22 @@ export const isDayOff = (date: Date) => {
   return date.getDay() === 0 || date.getDay() === 6;
 };
 
-export const toTokyoTime = (date: Date) => {
-  const timeZone = "Asia/Tokyo";
-  return toZonedTime(date, timeZone);
+export const getTokyoDateTime = ({
+  year,
+  month,
+  day,
+  hour,
+  minute,
+}: TokyoDateType) => {
+  const dateTime = DateTime.fromObject(
+    {
+      year,
+      month,
+      day,
+      hour: hour ?? 0,
+      minute: minute ?? 0,
+    },
+    { zone: "Asia/Tokyo" }
+  );
+  return dateTime.toJSDate();
 };

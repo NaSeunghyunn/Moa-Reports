@@ -7,8 +7,8 @@ import {
   saveKintaiDetailDto,
 } from "@/types";
 import {
+  getTokyoDateTime,
   isDayOff,
-  toTokyoTime,
   toYearMonth,
   toYearMonthStr,
   WORK_TYPE,
@@ -91,12 +91,24 @@ const createDefaultKintaiDetail = (
   day: number,
   isHoliday: boolean
 ): KintaiDetailProps => ({
-  date: toTokyoTime(new Date(year, month - 1, day)),
-  startTime: toTokyoTime(new Date(year, month - 1, day, 9, 0, 0)),
-  endTime: toTokyoTime(new Date(year, month - 1, day, 18, 0, 0)),
+  date: getTokyoDateTime({ year, month, day }),
+  startTime: getTokyoDateTime({
+    year,
+    month,
+    day,
+    hour: 9,
+    minute: 0,
+  }),
+  endTime: getTokyoDateTime({
+    year,
+    month,
+    day,
+    hour: 18,
+    minute: 0,
+  }),
   breakTime: 1,
   workType:
-    isDayOff(toTokyoTime(new Date(+year, +month - 1, day))) || isHoliday
+    isDayOff(getTokyoDateTime({ year, month, day })) || isHoliday
       ? WORK_TYPE.DAY_OFF
       : WORK_TYPE.WORK,
   remarks: isHoliday ? "祝日" : undefined,
