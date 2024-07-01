@@ -108,7 +108,7 @@ const createDefaultKintaiDetail = (
   }),
   breakTime: 1,
   workType:
-    isDayOff(getTokyoDateTime({ year, month, day })) || isHoliday
+    isDayOff(new Date(year, month - 1, day)) || isHoliday
       ? WORK_TYPE.DAY_OFF
       : WORK_TYPE.WORK,
   remarks: isHoliday ? "祝日" : undefined,
