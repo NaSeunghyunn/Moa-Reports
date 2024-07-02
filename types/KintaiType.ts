@@ -11,6 +11,7 @@ export interface KintaiProps {
 export interface KintaiDetailProps {
   id?: number;
   date: Date;
+  dayOfWeek: string;
   startTime: Date;
   endTime: Date;
   breakTime: number;
@@ -18,6 +19,7 @@ export interface KintaiDetailProps {
   remarks?: string;
   userId?: number;
   kintaiId?: number;
+  isDayOff: boolean;
 }
 
 export interface YearMonthType {

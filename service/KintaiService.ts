@@ -7,8 +7,9 @@ import {
   saveKintaiDetailDto,
 } from "@/types";
 import {
+  getDayOfWeek,
   getTokyoDateTime,
-  isDayOff,
+  isDayOff as checkDayOff,
   toYearMonth,
   toYearMonthStr,
   WORK_TYPE,
@@ -55,16 +56,17 @@ const getKintaiDetails = async (yearMonth: string, data: KintaiPrismaType) => {
       const findKintaiDetail = data?.Kintais.find(
         (detail) => detail.day === day
       );
+      const isHoliday = holidays.includes(day);
 
       if (findKintaiDetail) {
         return transformKintaiDetail(
           { year, month },
           findKintaiDetail,
-          data?.userId!
+          data?.userId!,
+          isHoliday
         );
       }
 
-      const isHoliday = holidays.includes(day);
       return createDefaultKintaiDetail(+year, +month, day, isHoliday);
     }
   );
@@ -73,43 +75,52 @@ const getKintaiDetails = async (yearMonth: string, data: KintaiPrismaType) => {
 const transformKintaiDetail = (
   { year, month }: YearMonthType,
   kintaiDetail: KintaiDetailsPrismaType,
-  userId: number
-): KintaiDetailProps => ({
-  id: kintaiDetail.id,
-  date: new Date(year, month - 1, kintaiDetail.day),
-  startTime: kintaiDetail.startTime,
-  endTime: kintaiDetail.endTime,
-  breakTime: kintaiDetail.breakTime,
-  workType: kintaiDetail.workType,
-  remarks: kintaiDetail.remarks ?? undefined,
-  userId,
-});
+  userId: number,
+  isHoliday: boolean
+): KintaiDetailProps => {
+  const date = new Date(year, month - 1, kintaiDetail.day);
+  return {
+    id: kintaiDetail.id,
+    date,
+    dayOfWeek: getDayOfWeek(date),
+    startTime: kintaiDetail.startTime,
+    endTime: kintaiDetail.endTime,
+    breakTime: kintaiDetail.breakTime,
+    workType: kintaiDetail.workType,
+    remarks: kintaiDetail.remarks ?? undefined,
+    userId,
+    isDayOff: checkDayOff(date) || isHoliday,
+  };
+};
 
 const createDefaultKintaiDetail = (
   year: number,
   month: number,
   day: number,
   isHoliday: boolean
-): KintaiDetailProps => ({
-  date: getTokyoDateTime({ year, month, day }),
-  startTime: getTokyoDateTime({
-    year,
-    month,
-    day,
-    hour: 9,
-    minute: 0,
-  }),
-  endTime: getTokyoDateTime({
-    year,
-    month,
-    day,
-    hour: 18,
-    minute: 0,
-  }),
-  breakTime: 1,
-  workType:
-    isDayOff(new Date(year, month - 1, day)) || isHoliday
-      ? WORK_TYPE.DAY_OFF
-      : WORK_TYPE.WORK,
-  remarks: isHoliday ? "祝日" : undefined,
-});
+): KintaiDetailProps => {
+  const date = new Date(year, month - 1, day);
+  const isDayOff = checkDayOff(date) || isHoliday;
+  return {
+    date,
+    dayOfWeek: getDayOfWeek(date),
+    startTime: getTokyoDateTime({
+      year,
+      month,
+      day,
+      hour: 9,
+      minute: 0,
+    }),
+    endTime: getTokyoDateTime({
+      year,
+      month,
+      day,
+      hour: 18,
+      minute: 0,
+    }),
+    breakTime: 1,
+    workType: isDayOff ? WORK_TYPE.DAY_OFF : WORK_TYPE.WORK,
+    remarks: isHoliday ? "祝日" : undefined,
+    isDayOff,
+  };
+};

@@ -5,8 +5,6 @@ import {
   WORK_TYPE,
   calculateWorkingTime,
   formatWorkingTime,
-  getDayOfWeek,
-  isDayOff,
   nextYearMonth,
   prevYearMonth,
   toYearMonthStr,
@@ -104,8 +102,8 @@ export default function KintaiClient({ kintai, templates }: KintaiClientProps) {
             onClick={() => rowOnclick(kintai)}
           >
             <span
-              className={`min-w-14 ${isDayOff(kintai.date) && "text-red-500"}`}
-            >{`${kintai.date.getDate()}(${getDayOfWeek(kintai.date)})`}</span>
+              className={`min-w-14 ${kintai.isDayOff && "text-red-500"}`}
+            >{`${kintai.date.getDate()}(${kintai.dayOfWeek})`}</span>
             {kintai.workType === WORK_TYPE.WORK && (
               <>
                 <span className="-ml-5">

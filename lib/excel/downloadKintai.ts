@@ -2,7 +2,7 @@ import { getUsername } from "@/service/UserService";
 import { KintaiDetailProps, YearMonthType } from "@/types";
 import ExcelJS, { Workbook } from "exceljs";
 import { saveAs } from "file-saver";
-import { calculateWorkingTime, getDayOfWeek } from "../dateUtil";
+import { calculateWorkingTime } from "../dateUtil";
 import { WORK_TYPE } from "../kintaiUtil";
 import { TEMPLATE_TYPE } from "../templateUtil";
 import { TemplateType } from "@/types/TemplateType";
@@ -39,7 +39,7 @@ const more = {
     let rowIndex = 7;
     kintaiList.forEach((kintai) => {
       const row = worksheet.getRow(rowIndex);
-      row.getCell("C").value = getDayOfWeek(kintai.date);
+      row.getCell("C").value = kintai.dayOfWeek;
       row.getCell("B").value = adjustOffset(kintai.date);
       if (kintai.workType === WORK_TYPE.WORK) {
         row.getCell("D").value = timeValue(kintai.startTime);
@@ -71,7 +71,7 @@ const smt = {
     kintaiList.forEach((kintai) => {
       const row = worksheet.getRow(rowIndex);
       row.getCell("A").value = adjustOffset(kintai.date).getDate();
-      row.getCell("B").value = getDayOfWeek(kintai.date);
+      row.getCell("B").value = kintai.dayOfWeek;
       if (kintai.workType === WORK_TYPE.WORK) {
         row.getCell("C").value = adjustOffset(kintai.startTime);
         row.getCell("E").value = adjustOffset(kintai.endTime);
