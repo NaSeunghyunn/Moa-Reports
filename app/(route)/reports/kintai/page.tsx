@@ -20,7 +20,7 @@ export default function Kintai() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-100dvh">
       <form action={action} className="flex flex-col gap-5">
         <div className="flex gap-10 items-center justify-center">
           <div className="flex gap-1 items-center">
