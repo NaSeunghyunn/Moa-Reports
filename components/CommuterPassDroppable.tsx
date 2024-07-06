@@ -9,7 +9,7 @@ interface CommuterPassDroppableProps {
   items: CommuterPassType[];
   itemColor: "green" | "neutral";
   indicatorTitle: string;
-  indicatorColor: "primary" | "neutral";
+  indicatorColor: "badge-primary" | "badge-neutral";
 }
 
 export default function CommuterPassDroppable({

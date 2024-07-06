@@ -200,7 +200,9 @@ export default function CommuterPass() {
               items={itemGroups[group]}
               itemColor={group === "USE" ? "green" : "neutral"}
               indicatorTitle={group === "USE" ? "使用中" : "未使用"}
-              indicatorColor={group === "USE" ? "primary" : "neutral"}
+              indicatorColor={
+                group === "USE" ? "badge-primary" : "badge-neutral"
+              }
             />
           ))}
         </div>
