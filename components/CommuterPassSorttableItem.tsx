@@ -3,7 +3,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 interface CommuterPassSorttableItemProps {
-  id: number;
+  id: string;
   item: CommuterPassType;
   itemColor: "neutral" | "green" | "blue";
 }
@@ -19,12 +19,19 @@ export default function CommuterPassSorttableItem({
   item,
   itemColor,
 }: CommuterPassSorttableItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    opacity: isDragging ? 0.3 : 1,
   };
 
   return (
