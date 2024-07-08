@@ -16,6 +16,7 @@ import { useAtom } from "jotai";
 import { activeItemAtom, itemGroupsAtom } from "@/atoms";
 import { uuid } from "@/lib/uuid";
 import { useCommuterPassDnd } from "@/lib/commuterPassUtil";
+import CommuterPassRemoveDroppable from "@/components/CommuterPassRemoveDroppable";
 
 export default function CommuterPass() {
   const [itemGroups, setItemGroups] = useAtom(itemGroupsAtom);
@@ -103,7 +104,7 @@ export default function CommuterPass() {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="pt-16 pb-24 px-5 h-dvh overflow-y-auto">
+      <div className="flex flex-col gap-3 justify-between pt-16 pb-24 px-5 h-dvh overflow-y-auto">
         <div className="flex flex-col gap-10 justify-center items-center">
           {Object.keys(itemGroups).map((group) => (
             <CommuterPassDroppable
@@ -119,6 +120,7 @@ export default function CommuterPass() {
             />
           ))}
         </div>
+        <CommuterPassRemoveDroppable />
       </div>
       <DragOverlay>
         {activeItem ? (

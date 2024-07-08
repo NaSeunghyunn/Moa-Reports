@@ -29,6 +29,7 @@ export function useCommuterPassDnd() {
 
     const activeContainer = active.data.current?.sortable.containerId;
     const overContainer = over.data.current?.sortable.containerId || over.id;
+    if (overContainer === "REMOVE") return;
 
     if (activeContainer !== overContainer) {
       setItemGroups((itemGroups) => {
@@ -65,6 +66,11 @@ export function useCommuterPassDnd() {
           ? itemGroups[overContainer].length + 1
           : over.data.current?.sortable.index;
 
+      if (overContainer === "REMOVE") {
+        handleRemoveDragEnd(activeContainer, activeIndex);
+        return;
+      }
+
       setItemGroups((itemGroups) => {
         let newItems;
         if (activeContainer === overContainer) {
@@ -90,6 +96,25 @@ export function useCommuterPassDnd() {
         return newItems;
       });
     }
+    setActiveItem(null);
+  };
+
+  const handleRemoveDragEnd = (
+    activeContainer: string,
+    activeIndex: number
+  ) => {
+    setItemGroups((itemGroups) => {
+      let newItems;
+      newItems = {
+        ...itemGroups,
+        [activeContainer]: removeAtIndex(
+          itemGroups[activeContainer],
+          activeIndex
+        ),
+      };
+
+      return newItems;
+    });
     setActiveItem(null);
   };
 
