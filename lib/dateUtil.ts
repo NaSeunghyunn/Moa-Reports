@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { TokyoDateType } from "@/types";
 import { WORK_TYPE } from "./kintaiUtil";
+import moment from "moment";
 
 const TIME_ZONE = "Asia/Tokyo";
 
@@ -69,4 +70,28 @@ export const getTokyoDateTime = ({
     { zone: "Asia/Tokyo" }
   );
   return dateTime.toJSDate();
+};
+
+export const getLastDay = () => {
+  const now = new Date();
+  const date = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  return date.getDate();
+};
+
+export const getOneMonthLaterMonthDay = (date: Date) => {
+  let result = moment(date);
+  result.add(1, "M").subtract(1, "days");
+  return `${result.month() + 1}/${result.date()}`;
+};
+
+export const getOneMonthLaterMonthDayFromDay = (day: number) => {
+  const date = moment().date(day).toDate();
+  return getOneMonthLaterMonthDay(date);
+};
+
+export const getOneMonthLaterMonthDayRange = (day: number) => {
+  const date = moment().date(day).toDate();
+  return `${date.getMonth() + 1}/${date.getDate()}〜${getOneMonthLaterMonthDay(
+    date
+  )}`;
 };

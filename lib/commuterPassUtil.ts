@@ -142,6 +142,7 @@ export function useCommuterPassDnd() {
 }
 
 export function newitem(
+  startDay: number,
   start: string,
   end: string,
   price: number
@@ -149,6 +150,7 @@ export function newitem(
   return {
     id: uuid(),
     type: "USE",
+    startDay,
     start,
     end,
     price,

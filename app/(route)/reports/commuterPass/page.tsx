@@ -17,6 +17,8 @@ import { useCommuterPassDnd } from "@/lib/commuterPassUtil";
 import CommuterPassRemoveDroppable from "@/components/CommuterPassRemoveDroppable";
 import { useIsModified } from "@/hooks/useIsModified";
 import { useId } from "react";
+import CommuterPassAddModal from "@/components/CommuterPassAddModal";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
 export default function CommuterPass() {
   const itemGroups = useAtomValue(itemGroupsAtom);
@@ -53,19 +55,34 @@ export default function CommuterPass() {
         onDragEnd={handleDragEnd}
       >
         <div className="flex flex-col gap-3 justify-between pt-16 pb-24 px-5 h-dvh overflow-y-auto">
+          <div className="flex justify-end items-center">
+            <CommuterPassAddModal modalId="modalId" />
+            <button
+              className="size-8"
+              onClick={() => {
+                const modal = document.getElementById(
+                  "modalId"
+                ) as HTMLDialogElement;
+                modal.showModal();
+              }}
+            >
+              <PlusCircleIcon className="text-neutral-300 hover:text-neutral-500 transition-colors" />
+            </button>
+          </div>
           <div className="flex flex-col gap-10 justify-center items-center">
             {Object.keys(itemGroups).map((group) => (
-              <CommuterPassDroppable
-                key={group}
-                id={group}
-                items={itemGroups[group]}
-                itemColor={group === "USE" ? "green" : "neutral"}
-                indicatorTitle={group === "USE" ? "使用中" : "未使用"}
-                indicatorColor={
-                  group === "USE" ? "badge-primary" : "badge-neutral"
-                }
-                isUse={group === "USE"}
-              />
+              <div className="w-full">
+                <CommuterPassDroppable
+                  key={group}
+                  id={group}
+                  items={itemGroups[group]}
+                  itemColor={group === "UNUSED" ? "neutral" : "green"}
+                  indicatorTitle={group === "UNUSED" ? "未使用" : group}
+                  indicatorColor={
+                    group === "UNUSED" ? "badge-neutral" : "badge-primary"
+                  }
+                />
+              </div>
             ))}
           </div>
           <CommuterPassRemoveDroppable />

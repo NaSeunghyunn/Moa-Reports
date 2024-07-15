@@ -4,6 +4,11 @@ import { itemGroupsAtom } from "@/atoms";
 import { insertAtIndex } from "@/lib/array";
 import { newitem } from "@/lib/commuterPassUtil";
 import { useState } from "react";
+import {
+  getLastDay,
+  getOneMonthLaterMonthDayFromDay,
+  getOneMonthLaterMonthDayRange,
+} from "@/lib";
 
 interface CommuterPassAddModalProps {
   modalId: string;
@@ -13,9 +18,11 @@ export default function CommuterPassAddModal({
   modalId,
 }: CommuterPassAddModalProps) {
   const [itemGroups, setItemGroups] = useAtom(itemGroupsAtom);
+  const [startDay, setStartDay] = useState("1");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [price, setPrice] = useState("");
+  const [isStartDayError, setStartDayError] = useState(false);
   const [isStartError, setStartError] = useState(false);
   const [isEndError, setEndError] = useState(false);
   const [isPriceError, setPriceError] = useState(false);
@@ -36,24 +43,40 @@ export default function CommuterPassAddModal({
       setEndError(false);
     }
 
-    if (isNaN(+price) || Number(price) <= 0) {
+    if (isNaN(+price) || +price <= 0) {
       setPriceError(true);
       isError = true;
     } else {
       setPriceError(false);
     }
 
+    if (isNaN(+startDay) || +startDay <= 0 || +startDay > 31) {
+      setStartDayError(true);
+      isError = true;
+    } else {
+      setStartDayError(false);
+    }
+
     if (isError) return;
 
-    const newItem = newitem(start, end, +price);
-    setItemGroups(() => ({
-      ...itemGroups,
-      ["USE"]: insertAtIndex(
-        itemGroups["USE"],
-        itemGroups["USE"].length + 1,
-        newItem
-      ),
-    }));
+    const groupId = getOneMonthLaterMonthDayRange(+startDay);
+
+    const newItem = newitem(+startDay, start, end, +price);
+    if (groupId in itemGroups) {
+      setItemGroups(() => ({
+        ...itemGroups,
+        [groupId]: insertAtIndex(
+          itemGroups[groupId],
+          itemGroups[groupId].length + 1,
+          newItem
+        ),
+      }));
+    } else {
+      setItemGroups(() => ({
+        [groupId]: [newItem],
+        ...itemGroups,
+      }));
+    }
 
     setStart("");
     setEnd("");
@@ -72,6 +95,11 @@ export default function CommuterPassAddModal({
   const onChangePrice = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPrice(e.currentTarget.value);
 
+  const onChangeStartDay = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setStartDay(e.currentTarget.value);
+
+  const lastDay = new Date().getDate();
+
   return (
     <dialog id={modalId} className="modal">
       <div className="modal-box bg-neutral-700 w-full">
@@ -80,8 +108,39 @@ export default function CommuterPassAddModal({
             ✕
           </button>
         </form>
-        <div className="flex flex-col justify-center items-center gap-3 p-5">
-          <label className="form-control w-full max-w-xs">
+        <div className="flex flex-col justify-center items-center gap-3 p-5 *:w-full *:max-w-xs">
+          <div className="flex justify-center items-center gap-4 *:w-full *:max-w-xs">
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text text-neutral-400">購入日</span>
+              </div>
+              <select
+                value={startDay}
+                onChange={onChangeStartDay}
+                className="select w-24 bg-neutral-900 border-white focus:border-white"
+              >
+                {Array.from({ length: getLastDay() }, (_, i) => i + 1).map(
+                  (i) => (
+                    <option key={i} value={i}>
+                      {i}
+                    </option>
+                  )
+                )}
+              </select>
+            </label>
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text text-neutral-400">終了日</span>
+              </div>
+              <span className="ps-1">
+                {getOneMonthLaterMonthDayFromDay(+startDay)}
+              </span>
+            </label>
+          </div>
+          {isStartDayError && (
+            <p className="text-red-500 p-1">正しくありません。</p>
+          )}
+          <label className="form-control">
             <div className="label">
               <span className="label-text text-neutral-400">乗車駅</span>
             </div>
@@ -96,7 +155,7 @@ export default function CommuterPassAddModal({
               <p className="text-red-500 p-1">入力してください。</p>
             )}
           </label>
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control">
             <div className="label">
               <span className="label-text text-neutral-400">降車駅</span>
             </div>
@@ -111,7 +170,7 @@ export default function CommuterPassAddModal({
               <p className="text-red-500 p-1">入力してください。</p>
             )}
           </label>
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control">
             <div className="label">
               <span className="label-text text-neutral-400">発売額</span>
             </div>
