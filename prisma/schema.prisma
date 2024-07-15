@@ -18,6 +18,7 @@ model User {
   updated_at DateTime @updatedAt
   kintais Kintai[]
   userTemplates UserTemplate[]
+  commuterPasses CommuterPass[]
 }
 
 model Kintai {
@@ -65,4 +66,16 @@ model UserTemplate {
   updated_at DateTime @updatedAt
 
   @@unique([userId, templateId])
+}
+
+model CommuterPass {
+  id Int @id @default(autoincrement())
+  type String
+  startDay Int
+  start String
+  end String
+  price Int
+  orderNumber Int
+  userId Int
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
