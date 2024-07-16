@@ -39,6 +39,9 @@ export default function CommuterPassClient({
   useEffect(() => {
     setItemGroups(commuterPassGroups);
     initValue(commuterPassGroups);
+    if (Object.keys(commuterPassGroups).length <= 1) {
+      onClickModal();
+    }
   }, [commuterPassGroups, setItemGroups]);
 
   const sensors = useSensors(
@@ -57,6 +60,11 @@ export default function CommuterPassClient({
     await saveCommuterPasses(itemGroups);
     clearIsModified();
     setIsSaving(false);
+  };
+
+  const onClickModal = () => {
+    const modal = document.getElementById("modalId") as HTMLDialogElement;
+    modal.showModal();
   };
 
   return (
@@ -87,15 +95,7 @@ export default function CommuterPassClient({
         <div className="flex flex-col gap-3 justify-between pt-16 pb-24 px-5 h-dvh overflow-y-auto">
           <div className="flex justify-end items-center">
             <CommuterPassAddModal modalId="modalId" />
-            <button
-              className="size-8"
-              onClick={() => {
-                const modal = document.getElementById(
-                  "modalId"
-                ) as HTMLDialogElement;
-                modal.showModal();
-              }}
-            >
+            <button className="size-8" onClick={onClickModal}>
               <PlusCircleIcon className="text-neutral-300 hover:text-neutral-500 transition-colors" />
             </button>
           </div>
