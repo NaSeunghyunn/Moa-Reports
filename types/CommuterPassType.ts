@@ -11,4 +11,16 @@ export interface CommuterPassType {
 
 export interface ItemGroups {
   [key: string]: CommuterPassType[];
+  UNUSED: CommuterPassType[];
 }
+
+export type CommuterPassEntity = {
+  id?: number;
+  type: string;
+  startDay: number;
+  start: string;
+  end: string;
+  price: number;
+  orderNumber: number;
+  userId: number;
+};

@@ -59,7 +59,7 @@ export default function CommuterPassAddModal({
 
     if (isError) return;
 
-    const groupId = getOneMonthLaterMonthDayRange(+startDay);
+    const groupId = startDay;
 
     const newItem = newitem(+startDay, start, end, +price);
     if (groupId in itemGroups) {

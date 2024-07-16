@@ -3,8 +3,6 @@ import { useDroppable } from "@dnd-kit/core";
 import SorttableItem from "./CommuterPassSorttableItem";
 import Indicator from "@/components/Indicator";
 import { CommuterPassType } from "@/types/CommuterPassType";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import CommuterPassAddModal from "./CommuterPassAddModal";
 
 interface CommuterPassDroppableProps {
   id: string;

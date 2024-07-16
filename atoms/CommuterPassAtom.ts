@@ -3,7 +3,7 @@ import { CommuterPassType, ItemGroups } from "@/types/CommuterPassType";
 import { atom } from "jotai";
 
 const initialItemGroups: ItemGroups = {
-  "7/1〜7/31": [
+  "1": [
     {
       id: uuid(),
       commuterPassId: 1,
@@ -35,7 +35,7 @@ const initialItemGroups: ItemGroups = {
       orderNumber: 3,
     },
   ],
-  "7/2〜8/1": [
+  "2": [
     {
       id: uuid(),
       commuterPassId: 1,
@@ -101,10 +101,8 @@ const initialItemGroups: ItemGroups = {
   ],
 };
 
-export const itemGroupsAtom = atom<ItemGroups>(initialItemGroups);
-//   {
-//   USE: [],
-//   UNUSED: [],
-// });
+export const itemGroupsAtom = atom<ItemGroups>({
+  UNUSED: [],
+});
 
 export const activeItemAtom = atom<CommuterPassType | null>(null);
