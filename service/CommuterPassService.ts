@@ -11,6 +11,7 @@ import {
   CommuterPassType,
   ItemGroups,
 } from "@/types/CommuterPassType";
+import { revalidatePath } from "next/cache";
 
 export async function findCommuterPasses() {
   const { id } = await getSession();
@@ -45,6 +46,7 @@ export async function saveCommuterPasses(itemGroups: ItemGroups) {
   );
 
   await bulkInsertAndDelete(commuterPasses, id);
+  revalidatePath("/reports/commuterPass");
 }
 
 const convertToItemGroups = (

@@ -18,5 +18,9 @@ export function useIsModified<T>(value: T) {
     setIsModified(false);
   };
 
-  return { isModified, clearIsModified };
+  const initValue = (v: T) => {
+    initialValue.current = v;
+  };
+
+  return { isModified, clearIsModified, initValue };
 }

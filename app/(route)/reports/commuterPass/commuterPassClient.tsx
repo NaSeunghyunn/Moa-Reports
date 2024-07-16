@@ -32,12 +32,13 @@ export default function CommuterPassClient({
 }: CommuterPassClientProps) {
   const [itemGroups, setItemGroups] = useAtom(itemGroupsAtom);
   const activeItem = useAtomValue(activeItemAtom);
-  const { isModified, clearIsModified } = useIsModified(itemGroups);
+  const { isModified, clearIsModified, initValue } = useIsModified(itemGroups);
   const [isSaving, setIsSaving] = useState(false);
   const id = useId();
 
   useEffect(() => {
     setItemGroups(commuterPassGroups);
+    initValue(commuterPassGroups);
   }, [commuterPassGroups, setItemGroups]);
 
   const sensors = useSensors(
