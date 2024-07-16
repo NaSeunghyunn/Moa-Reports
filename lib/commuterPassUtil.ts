@@ -104,16 +104,14 @@ export function useCommuterPassDnd() {
     activeIndex: number
   ) => {
     setItemGroups((itemGroups) => {
-      let newItems;
-      newItems = {
+      const updatedGroup = removeAtIndex(
+        itemGroups[activeContainer],
+        activeIndex
+      );
+      return {
         ...itemGroups,
-        [activeContainer]: removeAtIndex(
-          itemGroups[activeContainer],
-          activeIndex
-        ),
+        [activeContainer]: updatedGroup,
       };
-
-      return newItems;
     });
     setActiveItem(null);
   };
