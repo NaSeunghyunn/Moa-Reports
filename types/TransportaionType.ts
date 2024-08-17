@@ -10,3 +10,6 @@ export interface TransportaionType {
 }
 
 export type TransportaionsOfDayType = TransportaionType[];
+
+export type AllGoalType = "_" | "テレワーク" | "出勤" | "";
+export type AllVehicleType = "_" | "電車" | "バス" | "電車、バス" | "";

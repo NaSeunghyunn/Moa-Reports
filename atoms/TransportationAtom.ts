@@ -1,4 +1,8 @@
-import { TransportaionsOfDayType } from "@/types/TransportaionType";
+import {
+  AllGoalType,
+  AllVehicleType,
+  TransportaionsOfDayType,
+} from "@/types/TransportaionType";
 import { atom } from "jotai";
 
 const initialItems: TransportaionsOfDayType = [1, 2, 3, 4, 5].map((item) => ({
@@ -30,7 +34,5 @@ export const transprotationsAtom =
 export const selectedTransportationsOfDayAtom =
   atom<TransportaionsOfDayType>(initialItems);
 export const selectedTransportationsOfDayIndexAtom = atom<number>(0);
-export const allGoalAtom = atom<"_" | "テレワーク" | "出勤" | "">("_");
-export const allVehicleAtom = atom<"_" | "電車" | "バス" | "電車、バス" | "">(
-  "_"
-);
+export const allGoalAtom = atom<AllGoalType>("_");
+export const allVehicleAtom = atom<AllVehicleType>("_");

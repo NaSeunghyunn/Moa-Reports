@@ -47,27 +47,37 @@ export default function TransportationItem({
         price: item.price?.toString(),
       });
     }
-  }, [selectedTransportationsOfDay, itemIndex]);
 
-  useEffect(() => {
     if (allGoal !== "_") {
       setLocalData((prev) => ({
         ...prev,
         goal: allGoal,
       }));
-      setIsModified(true);
+      if (allGoal !== localData.goal) {
+        setIsModified(true);
+      }
+    } else if (item) {
+      setLocalData((prev) => ({
+        ...prev,
+        goal: item.goal,
+      }));
     }
-  }, [allGoal]);
 
-  useEffect(() => {
     if (allVehicle !== "_") {
       setLocalData((prev) => ({
         ...prev,
         vehicle: allVehicle,
       }));
-      setIsModified(true);
+      if (allVehicle !== localData.vehicle) {
+        setIsModified(true);
+      }
+    } else if (item) {
+      setLocalData((prev) => ({
+        ...prev,
+        vehicle: item.vehicle,
+      }));
     }
-  }, [allVehicle]);
+  }, [selectedTransportationsOfDay, allGoal, allVehicle, itemIndex]);
 
   const handleInputChange = (key: string, value: string | boolean) => {
     setIsModified(true);
