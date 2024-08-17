@@ -1,15 +1,15 @@
 import OutputBtn from "@/components/outputBtn";
 import { tempalteListType } from "@/repository/templateRepository";
 import { TemplateType } from "@/types/TemplateType";
+import { ModalProps } from "@/types/modal";
 
-interface OutputModalProps {
-  modalId: string;
+interface OutputModalProps extends ModalProps {
   templates: tempalteListType;
 }
 
-export default function OutputModal({ modalId, templates }: OutputModalProps) {
+export default function OutputModal({ id, templates }: OutputModalProps) {
   return (
-    <dialog id={modalId} className="modal">
+    <dialog id={id} className="modal">
       <div className="modal-box bg-neutral-700">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">

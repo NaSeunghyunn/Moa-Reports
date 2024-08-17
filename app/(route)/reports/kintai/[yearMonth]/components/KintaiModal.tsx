@@ -18,12 +18,9 @@ import {
 } from "@/atoms";
 import { WORK_TYPE } from "@/lib/kintaiUtil";
 import { handleSubmit } from "./handleSubmit";
+import { ModalProps } from "@/types/modal";
 
-interface ModalProps {
-  modalId: string;
-}
-
-export default function KintaiModal({ modalId }: ModalProps) {
+export default function KintaiModal({ id }: ModalProps) {
   const [kintaiList, setKintaiList] = useAtom(kintaiListAtom);
   const kintaiDetail = useAtomValue(selectedKintaiAtom);
   const yearMonth = useAtomValue(yearMonthAtom);
@@ -81,7 +78,7 @@ export default function KintaiModal({ modalId }: ModalProps) {
   ]);
 
   return (
-    <dialog id={modalId} className="modal">
+    <dialog id={id} className="modal">
       {kintaiDetail && (
         <div className="modal-box bg-neutral-700 w-full">
           <div className="flex justify-between items-center">

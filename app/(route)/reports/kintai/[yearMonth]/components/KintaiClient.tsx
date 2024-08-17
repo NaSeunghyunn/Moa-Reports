@@ -22,6 +22,7 @@ import { ArrowLeft, ArrowRight, PrintOutlined } from "@mui/icons-material";
 import OutputModal from "./OutputModal";
 import KintaiModal from "./KintaiModal";
 import { tempalteListType } from "@/repository/templateRepository";
+import { openModal } from "@/lib/modalUtil";
 
 interface KintaiClientProps {
   kintai: KintaiProps;
@@ -40,28 +41,21 @@ export default function KintaiClient({ kintai, templates }: KintaiClientProps) {
     setYearMonth(kintai.yearMonth);
   }, [kintai, setKintaiList, setKintaiId, setYearMonth]);
 
+  const kintaiModalId = "kintai_modal";
+  const outputModalId = "output_modal";
+
   const rowOnclick = (kintai: KintaiDetailProps) => {
     setKintaiDetail(kintai);
-    const modalElement = document.getElementById(
-      "kintai_modal"
-    ) as HTMLDialogElement;
-    if (modalElement) {
-      modalElement.showModal();
-    }
+    openModal(kintaiModalId);
   };
 
   const onclickOutput = () => {
-    const modalElement = document.getElementById(
-      "output_modal"
-    ) as HTMLDialogElement;
-    if (modalElement) {
-      modalElement.showModal();
-    }
+    openModal(outputModalId);
   };
   return (
     <div>
-      <KintaiModal modalId="kintai_modal" />
-      <OutputModal modalId="output_modal" templates={templates} />
+      <KintaiModal id={kintaiModalId} />
+      <OutputModal id={outputModalId} templates={templates} />
       <div className="fixed w-full max-w-screen-sm h-10">
         <div className="flex justify-between items-center bg-neutral-900 px-5 py-3 select-none">
           <div className="flex justify-between items-center">
