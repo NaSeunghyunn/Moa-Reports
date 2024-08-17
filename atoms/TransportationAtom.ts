@@ -30,3 +30,7 @@ export const transprotationsAtom =
 export const selectedTransportationsOfDayAtom =
   atom<TransportaionsOfDayType>(initialItems);
 export const selectedTransportationsOfDayIndexAtom = atom<number>(0);
+export const allGoalAtom = atom<"_" | "テレワーク" | "出勤" | "">("_");
+export const allVehicleAtom = atom<"_" | "電車" | "バス" | "電車、バス" | "">(
+  "_"
+);

@@ -4,6 +4,8 @@ import {
   selectedTransportationsOfDayIndexAtom,
   selectedTransportationsOfDayAtom,
   transprotationsAtom,
+  allGoalAtom,
+  allVehicleAtom,
 } from "@/atoms/TransportationAtom";
 
 interface TransportationItemProps {
@@ -19,6 +21,8 @@ export default function TransportationItem({
   );
   const [selectedTransportationsOfDay, setSelectedTransportationsOfDay] =
     useAtom(selectedTransportationsOfDayAtom);
+  const allGoal = useAtomValue(allGoalAtom);
+  const allVehicle = useAtomValue(allVehicleAtom);
 
   const [localData, setLocalData] = useState({
     start: "",
@@ -44,6 +48,26 @@ export default function TransportationItem({
       });
     }
   }, [selectedTransportationsOfDay, itemIndex]);
+
+  useEffect(() => {
+    if (allGoal !== "_") {
+      setLocalData((prev) => ({
+        ...prev,
+        goal: allGoal,
+      }));
+      setIsModified(true);
+    }
+  }, [allGoal]);
+
+  useEffect(() => {
+    if (allVehicle !== "_") {
+      setLocalData((prev) => ({
+        ...prev,
+        vehicle: allVehicle,
+      }));
+      setIsModified(true);
+    }
+  }, [allVehicle]);
 
   const handleInputChange = (key: string, value: string | boolean) => {
     setIsModified(true);
