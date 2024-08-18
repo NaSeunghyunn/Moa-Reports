@@ -85,7 +85,7 @@ export default function TransportationModal({ id }: ModalProps) {
             </div>
           </div>
         </div>
-        {selectedTransportationsOfDay.map((_, index) => (
+        {selectedTransportationsOfDay?.map((_, index) => (
           <div key={index} className="border-b border-b-gray-600 mb-5">
             <TransportationItem itemIndex={index} />
           </div>

@@ -36,46 +36,48 @@ export default function TransportationItem({
   const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
-    const item = selectedTransportationsOfDay[itemIndex];
-    if (item && !isModified) {
-      setLocalData({
-        start: item.start,
-        end: item.end,
-        isTwoWayDirection: item.isTwoWayDirection,
-        goal: item.goal,
-        vehicle: item.vehicle,
-        price: item.price?.toString(),
-      });
-    }
-
-    if (allGoal !== "_") {
-      setLocalData((prev) => ({
-        ...prev,
-        goal: allGoal,
-      }));
-      if (allGoal !== localData.goal) {
-        setIsModified(true);
+    if (selectedTransportationsOfDay) {
+      const item = selectedTransportationsOfDay[itemIndex];
+      if (item && !isModified) {
+        setLocalData({
+          start: item.start,
+          end: item.end,
+          isTwoWayDirection: item.isTwoWayDirection,
+          goal: item.goal,
+          vehicle: item.vehicle,
+          price: item.price?.toString(),
+        });
       }
-    } else if (item) {
-      setLocalData((prev) => ({
-        ...prev,
-        goal: item.goal,
-      }));
-    }
 
-    if (allVehicle !== "_") {
-      setLocalData((prev) => ({
-        ...prev,
-        vehicle: allVehicle,
-      }));
-      if (allVehicle !== localData.vehicle) {
-        setIsModified(true);
+      if (allGoal !== "_") {
+        setLocalData((prev) => ({
+          ...prev,
+          goal: allGoal,
+        }));
+        if (allGoal !== localData.goal) {
+          setIsModified(true);
+        }
+      } else if (item) {
+        setLocalData((prev) => ({
+          ...prev,
+          goal: item.goal,
+        }));
       }
-    } else if (item) {
-      setLocalData((prev) => ({
-        ...prev,
-        vehicle: item.vehicle,
-      }));
+
+      if (allVehicle !== "_") {
+        setLocalData((prev) => ({
+          ...prev,
+          vehicle: allVehicle,
+        }));
+        if (allVehicle !== localData.vehicle) {
+          setIsModified(true);
+        }
+      } else if (item) {
+        setLocalData((prev) => ({
+          ...prev,
+          vehicle: item.vehicle,
+        }));
+      }
     }
   }, [selectedTransportationsOfDay, allGoal, allVehicle, itemIndex]);
 
@@ -113,6 +115,8 @@ export default function TransportationItem({
   };
 
   const getNewItems = () => {
+    if (!selectedTransportationsOfDay) return [];
+
     const newItem = {
       ...selectedTransportationsOfDay[itemIndex],
       date: selectedTransportationsOfDay[0].date,

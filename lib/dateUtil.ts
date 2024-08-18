@@ -98,3 +98,8 @@ export const getOneMonthLaterMonthDayRange = (day: number) => {
 
 export const getDateDayOfWeek = (date: Date) =>
   `${date.getDate()}(${getDayOfWeek(date)})`;
+
+export const getCurrentMonth = () => {
+  const now = new Date();
+  return now.getMonth() + 1;
+};

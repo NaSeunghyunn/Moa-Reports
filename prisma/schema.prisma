@@ -19,6 +19,7 @@ model User {
   kintais Kintai[]
   userTemplates UserTemplate[]
   commuterPasses CommuterPass[]
+  transportations Transportation[]
 }
 
 model Kintai {
@@ -78,6 +79,33 @@ model CommuterPass {
   orderNumber Int
   userId Int
   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Transportation {
+  id Int @id @default(autoincrement())
+  year Int
+  month Int
+  userId Int
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  details TransportationDetail[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  @@unique([year, month, userId])
+}
+
+model TransportationDetail {
+  id Int @id @default(autoincrement())
+  day Int
+  start String
+  end String
+  isTwoWayDirection Boolean
+  goal String
+  vehicle String
+  price Int
+  transportationId Int
+  Transportation Transportation @relation(fields: [transportationId], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
