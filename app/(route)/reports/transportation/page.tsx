@@ -3,5 +3,5 @@ import TransportationClient from "./components/TransoirtationClient";
 
 export default async function Transportations() {
   const transportations = await findTransportations();
-  return <TransportationClient transportations={transportations} />;
+  return <TransportationClient transportationsData={transportations} />;
 }
