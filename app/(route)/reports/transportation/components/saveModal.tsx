@@ -8,6 +8,7 @@ import {
   transprotationsAtom,
 } from "@/atoms/TransportationAtom";
 import { AllGoalType, AllVehicleType } from "@/types/TransportaionType";
+import TransportationNewItem from "./TransportationNewItem";
 
 export default function TransportationModal({ id }: ModalProps) {
   const setTransportations = useSetAtom(transprotationsAtom);
@@ -90,7 +91,7 @@ export default function TransportationModal({ id }: ModalProps) {
             <TransportationItem itemIndex={index} />
           </div>
         ))}
-        <TransportationItem itemIndex={-1} />
+        <TransportationNewItem />
       </div>
     </dialog>
   );

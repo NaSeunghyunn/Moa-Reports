@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useAtom, useAtomValue } from "jotai";
 import {
-  selectedTransportationsOfDayIndexAtom,
-  selectedTransportationsOfDayAtom,
-  transprotationsAtom,
   allGoalAtom,
   allVehicleAtom,
+  selectedTransportationsOfDayAtom,
+  selectedTransportationsOfDayIndexAtom,
+  transprotationsAtom,
 } from "@/atoms/TransportationAtom";
+import { useAtom, useAtomValue } from "jotai";
+import { useEffect, useState } from "react";
 
-interface TransportationItemProps {
-  itemIndex: number;
-}
-
-export default function TransportationItem({
-  itemIndex,
-}: TransportationItemProps) {
+export default function TransportationNewItem() {
   const [transportations, setTransportations] = useAtom(transprotationsAtom);
   const transportationsOfDayIndex = useAtomValue(
     selectedTransportationsOfDayIndexAtom
@@ -23,18 +17,16 @@ export default function TransportationItem({
     useAtom(selectedTransportationsOfDayAtom);
   const allGoal = useAtomValue(allGoalAtom);
   const allVehicle = useAtomValue(allVehicleAtom);
-
   const [localData, setLocalData] = useState(
-    Array.from({ length: transportations.length }, () =>
-      Array(selectedTransportationsOfDay?.length).fill({
-        start: "",
-        end: "",
-        isTwoWayDirection: true,
-        goal: "",
-        vehicle: "",
-        price: "",
-      })
-    )
+    new Array(transportations.length).fill({
+      start: "",
+      end: "",
+      isTwoWayDirection: true,
+      goal: "",
+      vehicle: "",
+      price: "",
+      isModified: false,
+    })
   );
   const [displayData, setDisplayData] = useState({
     start: "",
@@ -43,35 +35,15 @@ export default function TransportationItem({
     goal: "",
     vehicle: "",
     price: "",
+    isModified: false,
   });
-  const [isModified, setIsModified] = useState<boolean[][]>(
-    Array.from({ length: transportations.length }, () =>
-      Array(selectedTransportationsOfDay?.length).fill(false)
-    )
-  );
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!selectedTransportationsOfDay) return;
+    const currentData = localData[transportationsOfDayIndex];
+    if (!currentData) return;
 
-    const item = selectedTransportationsOfDay[itemIndex];
-
-    if (item && !isModified[transportationsOfDayIndex][itemIndex]) {
-      const newLocalData = [...localData];
-      newLocalData[transportationsOfDayIndex][itemIndex] = {
-        start: item.start,
-        end: item.end,
-        isTwoWayDirection: item.isTwoWayDirection,
-        goal: item.goal,
-        vehicle: item.vehicle,
-        price: item.price?.toString(),
-      };
-      setLocalData(newLocalData);
-
-      setDisplayData(newLocalData[transportationsOfDayIndex][itemIndex]);
-    } else {
-      setDisplayData(localData[transportationsOfDayIndex][itemIndex]);
-    }
+    setDisplayData(currentData);
 
     if (allGoal !== "_") {
       updateField("goal", allGoal);
@@ -80,26 +52,22 @@ export default function TransportationItem({
     if (allVehicle !== "_") {
       updateField("vehicle", allVehicle);
     }
-  }, [selectedTransportationsOfDay, allGoal, allVehicle, itemIndex]);
+  }, [localData, transportationsOfDayIndex, allGoal, allVehicle]);
 
   const updateField = (field: string, value: string) => {
     setDisplayData((prev) => ({
       ...prev,
       [field]: value,
+      isModified: true,
     }));
-    if (value !== localData[transportationsOfDayIndex][itemIndex]?.[field]) {
+    if (value !== localData[transportationsOfDayIndex]?.[field]) {
       const newLocalData = [...localData];
-      newLocalData[transportationsOfDayIndex][itemIndex] = {
-        ...newLocalData[transportationsOfDayIndex][itemIndex],
+      newLocalData[transportationsOfDayIndex] = {
+        ...newLocalData[transportationsOfDayIndex],
         [field]: value,
+        isModified: true,
       };
       setLocalData(newLocalData);
-
-      setIsModified((prev) => {
-        const newIsModified = [...prev];
-        newIsModified[transportationsOfDayIndex][itemIndex] = true;
-        return newIsModified;
-      });
     }
   };
 
@@ -107,24 +75,20 @@ export default function TransportationItem({
     setDisplayData((prev) => ({
       ...prev,
       [key]: value,
+      isModified: true,
     }));
 
     const newLocalData = [...localData];
-    newLocalData[transportationsOfDayIndex][itemIndex] = {
-      ...newLocalData[transportationsOfDayIndex][itemIndex],
+    newLocalData[transportationsOfDayIndex] = {
+      ...newLocalData[transportationsOfDayIndex],
       [key]: value,
+      isModified: true,
     };
     setLocalData(newLocalData);
-
-    setIsModified((prev) => {
-      const newIsModified = [...prev];
-      newIsModified[transportationsOfDayIndex][itemIndex] = true;
-      return newIsModified;
-    });
   };
 
   const onclickSave = () => {
-    const currentData = localData[transportationsOfDayIndex][itemIndex];
+    const currentData = localData[transportationsOfDayIndex];
 
     if (
       !currentData.start ||
@@ -137,6 +101,8 @@ export default function TransportationItem({
 
     setIsLoading(true);
 
+    if (!selectedTransportationsOfDay) return;
+
     const newItems = getNewItems();
 
     setSelectedTransportationsOfDay(newItems);
@@ -146,10 +112,28 @@ export default function TransportationItem({
       ...prev.slice(transportationsOfDayIndex + 1),
     ]);
 
-    setIsModified((prev) => {
-      const newIsModified = [...prev];
-      newIsModified[transportationsOfDayIndex][itemIndex] = false;
-      return newIsModified;
+    setDisplayData((prev) => ({
+      start: "",
+      end: "",
+      isTwoWayDirection: true,
+      goal: "",
+      vehicle: "",
+      price: "",
+      isModified: false,
+    }));
+
+    setLocalData((prev) => {
+      const newLocalData = [...prev];
+      newLocalData[transportationsOfDayIndex] = {
+        start: "",
+        end: "",
+        isTwoWayDirection: true,
+        goal: "",
+        vehicle: "",
+        price: "",
+        isModified: false,
+      };
+      return newLocalData;
     });
 
     setIsLoading(false);
@@ -159,14 +143,12 @@ export default function TransportationItem({
     if (!selectedTransportationsOfDay) return [];
 
     const newItem = {
-      ...selectedTransportationsOfDay[itemIndex],
       date: selectedTransportationsOfDay[0].date,
-      ...localData[transportationsOfDayIndex][itemIndex],
-      price: +localData[transportationsOfDayIndex][itemIndex].price,
+      ...localData[transportationsOfDayIndex],
+      price: +localData[transportationsOfDayIndex].price,
     };
 
-    const newItems = [...selectedTransportationsOfDay];
-    newItems[itemIndex] = newItem;
+    const newItems = [...selectedTransportationsOfDay, newItem];
     return newItems;
   };
 
@@ -236,14 +218,12 @@ export default function TransportationItem({
       </div>
       <button
         className="bg-green-500 w-full p-3 rounded-xl hover:bg-green-400 focus:bg-green-400 transition-colors disabled:bg-gray-700"
-        disabled={
-          isLoading || !isModified[transportationsOfDayIndex][itemIndex]
-        }
+        disabled={isLoading || !displayData.isModified}
         onClick={onclickSave}
       >
         {isLoading ? (
           <span className="loading loading-dots loading-md text-white"></span>
-        ) : isModified[transportationsOfDayIndex][itemIndex] ? (
+        ) : displayData.isModified ? (
           "保存"
         ) : (
           "変更待ち"
